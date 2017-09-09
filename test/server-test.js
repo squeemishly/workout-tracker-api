@@ -31,7 +31,7 @@ describe('Server', () => {
 
   afterEach(done => {
     Promise.all([
-      database.raw(`TRUNCATE lifts RESTART IDENTITY CASCADE`),
+      database.raw(`TRUNCATE lifts RESTART IDENTITY`),
     ])
     .then(() => done())
   })
@@ -94,9 +94,9 @@ describe('Server', () => {
         const lift = { "lift": { "name": "Leg Press", "bodyarea": "Hamstrings" } }
         this.request.post('/api/v1/lifts', { form: lift }, (err, res) => {
           if(err) { return done(err) }
-          const lift = JSON.parse(res.body)
-          assert.equal(lift.length, 1)
-          assert.hasAllKeys(lift[0], ["id", "name", "bodyarea"])
+          const newLift = JSON.parse(res.body)
+          assert.equal(newLift.length, 1)
+          assert.hasAllKeys(newLift[0], ["id", "name", "bodyarea"])
           done()
         })
       })
@@ -114,20 +114,6 @@ describe('Server', () => {
     //   })
     })
 
-    // describe('edit a lift', () => {
-    //   it('can edit a lift', done => {
-    //     if(err) { return done(err) }
-    //
-    //     done()
-    //   })
-    // })
 
-    // describe('delete a lift', () => {
-    //   it('can delete the lift', done => {
-        // if(err) { return done(err) }
-        //
-        // done()
-    //   })
-    // })
   })
 })
