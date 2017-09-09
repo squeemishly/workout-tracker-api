@@ -38,10 +38,15 @@ app.post('/api/v1/lifts', (req, res) => {
   const name = lift.lift.name
   const bodyarea = lift.lift.bodyarea
 
-  database.raw('INSERT INTO lifts (name, bodyarea, created_at) VALUES (?, ?, ?) RETURNING id, name, bodyarea', [name, bodyarea, new Date])
-  .then( data => {
-    return res.json(data.rows)
-  })
+  if (name === undefined || bodyarea === undefined) {
+    res.sendStatus(400)
+  } else {
+    database.raw('INSERT INTO lifts (name, bodyarea, created_at) VALUES (?, ?, ?) RETURNING id, name, bodyarea', [name, bodyarea, new Date])
+    .then( data => {
+      return res.json(data.rows)
+    })
+  }
+
 })
 
 if (!module.parent) {
