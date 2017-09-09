@@ -134,6 +134,30 @@ describe('Server', () => {
           done()
         })
       })
+
+      it('returns a 404 if it receives an invalid food', done => {
+        const lift = { "lift": { "name": "Bench", "bodyarea": "Chest" } }
+        this.request.put('/api/v1/lifts/0', { form: lift }, (err, res) => {
+          assert.equal(res.statusCode, 404)
+          done()
+        })
+      })
+
+      it('returns 400 without name field', done => {
+        const lift = { "lift": { "bodyarea": "Chest" } }
+        this.request.put('api/v1/lifts/1', { form: lift }, (err, res) => {
+          assert.equal(res.statusCode, 400)
+          done()
+        })
+      })
+
+      it('returns 400 without bodyarea field', done => {
+        const lift = { "lift": { "name": "Bench" }
+        this.request.put('api/v1/lifts/1', { form: lift }, (err, res) => {
+          assert.equal(res.statusCode, 400)
+          done()
+        })
+      })
     })
 
     // describe('delete a lift', () => {
