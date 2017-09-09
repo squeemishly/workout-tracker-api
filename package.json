@@ -1,0 +1,32 @@
+{
+  "name": "wt-api",
+  "version": "1.0.0",
+  "description": "the api for workout-tracker",
+  "main": "server.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha test/*-test.js",
+    "start": "nodemon server.js",
+    "debug": "NODE_ENV=test mocha debug test/*-test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/squeemishly/wt-api.git"
+  },
+  "author": "Kristen Squee Mueller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/squeemishly/wt-api/issues"
+  },
+  "homepage": "https://github.com/squeemishly/wt-api#readme",
+  "dependencies": {
+    "express": "^4.15.4",
+    "knex": "^0.13.0",
+    "pg": "^7.3.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.0",
+    "nodemon": "^1.12.0",
+    "request": "^2.81.0"
+  }
+}
