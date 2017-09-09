@@ -160,12 +160,14 @@ describe('Server', () => {
       })
     })
 
-    // describe('delete a lift', () => {
-    //   it('can delete the lift', done => {
-        // if(err) { return done(err) }
-        //
-        // done()
-    //   })
-    // })
+    describe('delete a lift', () => {
+      it('returns a 200 status', done => {
+        this.request.delete('api/v1/lifts/1', (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 200)
+          done()
+        })
+      })
+    })
   })
 })
