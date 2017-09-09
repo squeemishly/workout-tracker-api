@@ -34,9 +34,9 @@ app.get('/api/v1/lifts/:id', (req, res) => {
 })
 
 app.post('/api/v1/lifts', (req, res) => {
-  const lift = req.body
-  const name = lift.lift.name
-  const bodyarea = lift.lift.bodyarea
+  const lift = req.body.lift
+  const name = lift.name
+  const bodyarea = lift.bodyarea
 
   if (name === undefined || bodyarea === undefined) {
     res.sendStatus(400)
@@ -47,6 +47,18 @@ app.post('/api/v1/lifts', (req, res) => {
     })
   }
 
+})
+
+app.put('/api/v1/lifts/:id', (req, res) => {
+  const { id } = req.params
+  const lift = req.body.lift
+  const name = lift.name
+  const bodyarea = lift.bodyarea
+
+  database.raw('UPDATE lifts SET name = ?, bodyarea = ? WHERE id = ? RETURNING id, name, bodyarea', [name, bodyarea, id])
+  .then( data => {
+    return res.json(data.rows)
+  })
 })
 
 if (!module.parent) {
