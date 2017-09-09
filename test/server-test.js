@@ -31,8 +31,8 @@ describe('Server', () => {
 
   afterEach(done => {
     Promise.all([
-      console.log("it's running")
-      // database.raw(`TRUNCATE lifts RESTART IDENTITY`),
+      // console.log("it's running")
+      database.raw(`TRUNCATE lifts RESTART IDENTITY`),
     ])
     .then(() => done())
   })
@@ -152,7 +152,7 @@ describe('Server', () => {
       })
 
       it('returns 400 without bodyarea field', done => {
-        const lift = { "lift": { "name": "Bench" }
+        const lift = { "lift": { "name": "Bench" } }
         this.request.put('api/v1/lifts/1', { form: lift }, (err, res) => {
           assert.equal(res.statusCode, 400)
           done()
