@@ -60,14 +60,25 @@ app.put('/api/v1/lifts/:id', (req, res) => {
   } else {
     database.raw('UPDATE lifts SET name = ?, bodyarea = ? WHERE id = ? RETURNING id, name, bodyarea', [name, bodyarea, id])
     .then( data => {
-      if (data.rows < 1) {
+      if (data.rows.length < 1) {
           res.sendStatus(404)
       } else {
         return res.json(data.rows)
       }
     })
   }
+})
 
+app.delete('/api/v1/lifts/:id', (req, res) => {
+  const { id } = req.params
+  database.raw('DELETE FROM lifts WHERE id = ?', [id])
+  .then(data => {
+    if (data.rowCount < 1) {
+      res.sendStatus(404)
+    } else {
+      res.sendStatus(200)
+    }
+  })
 })
 
 if (!module.parent) {
