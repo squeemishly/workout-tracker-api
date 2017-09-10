@@ -86,6 +86,18 @@ app.get('/api/v1/bodyareas', (req, res) => {
   })
 })
 
+app.get('/api/v1/bodyareas/:id', (req, res) => {
+  const { id } = req.params
+  database.raw('SELECT id, name FROM bodyareas WHERE id = ?', [id])
+  .then(data => {
+    if (data.rows.length < 1) {
+      res.sendStatus(404)
+    } else {
+      return res.json(data.rows)
+    }
+  })
+})
+
 if (!module.parent) {
   app.listen(app.get('port'), () => {
     console.log(`${app.locals.title} is running on ${app.get('port')}.`)
