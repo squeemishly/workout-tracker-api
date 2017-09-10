@@ -183,5 +183,25 @@ describe('Server', () => {
         })
       })
     })
+
+    describe('GET /api/v1/bodyareas/:id', () => {
+      it('should return a 200 status', done => {
+        this.request.get('/api/v1/bodyareas/1', (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 200)
+          done()
+        })
+      })
+
+      it('should return the bodyarea identified', () => {
+        this.request.get('/api/v1/bodyareas/1', (err, res) => {
+          if(err) { return done(err) }
+          const bodyArea = JSON.parse(res.body)
+          assert.equal(bodyArea.length, 1)
+          assert.hasAllKeys(bodyArea[0], ["id", "name"])
+          done()
+        })
+      })
+    })
   })
 })
