@@ -117,10 +117,18 @@ app.put('/api/v1/bodyareas/:id', (req, res) => {
   const ba = req.body.bodyarea
   const name = ba.name
 
-  database.raw(`UPDATE bodyareas SET name = ? WHERE id = ? RETURNING id, name`, [name, id])
-  .then(data => {
-    return res.json(data.rows)
-  })
+  if (name === "") {
+    res.sendStatus(400)
+  } else {
+    database.raw(`UPDATE bodyareas SET name = ? WHERE id = ? RETURNING id, name`, [name, id])
+    .then(data => {
+      if (data.rows.length < 1) {
+        res.sendStatus(404)
+      } else {
+        return res.json(data.rows)
+      }
+    })
+  }
 })
 
 if (!module.parent) {

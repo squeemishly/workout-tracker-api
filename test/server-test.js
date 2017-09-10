@@ -264,6 +264,24 @@ describe('Server', () => {
           done()
         })
       })
+
+      it('should return 400 if name is blank', done => {
+        const ba = { "bodyarea": { "name": "" } }
+        this.request.put('/api/v1/bodyareas/1', { form: ba }, (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 400)
+          done()
+        })
+      })
+
+      it('should return 404 if the ID does not exist', done => {
+        const ba = { "bodyarea": { "name": "Biceps" } }
+        this.request.put('/api/v1/bodyareas/0', { form: ba }, (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 404)
+          done()
+        })
+      })
     })
   })
 })
