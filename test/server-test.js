@@ -368,11 +368,10 @@ describe('Server', () => {
           })
         })
 
-        it('should return the added lift and bodyarea', done => {
-          this.request.post('/api/v1/bodyareas/1/lifts/5', (err, res) => {
+        it('should return a 404 response if it cannot add to the database', done => {
+          this.request.post('/api/v1/bodyareas/0/lifts/0', (err, res) => {
             if(err) { return done(err) }
-            const bodyareaLift = JSON.parse(res.body)
-            assert.hasAllKeys(bodyareaLift[0], ["bodyarea_id", "bodyarea_name", "lift_id", "lift_name"])
+            assert.equal(res.statusCode, 404)
             done()
           })
         })
