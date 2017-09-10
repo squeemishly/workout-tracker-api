@@ -90,7 +90,11 @@ app.get('/api/v1/bodyareas/:id', (req, res) => {
   const { id } = req.params
   database.raw('SELECT id, name FROM bodyareas WHERE id = ?', [id])
   .then(data => {
-    return res.json(data.rows)
+    if (data.rows.length < 1) {
+      res.sendStatus(404)
+    } else {
+      return res.json(data.rows)
+    }
   })
 })
 
