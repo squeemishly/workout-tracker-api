@@ -376,6 +376,32 @@ describe('Server', () => {
           })
         })
       })
+
+      describe('DELETE /api/v1/bodyareas/:id/lifts/:id', () => {
+        it('should return a 200 response', done => {
+          this.request.delete('/api/v1/bodyareas/1/lifts/1', (err, res) => {
+            if(err) { return done(err) }
+            assert.equal(res.statusCode, 200)
+            done()
+          })
+        })
+
+        it('should return a 404 response if the bodyarea does not exit', done => {
+          this.request.delete('/api/v1/bodyareas/0/lifts/1', (err, res) => {
+            if(err) { return done(err) }
+            assert.equal(res.statusCode, 404)
+            done()
+          })
+        })
+
+        it('should return a 404 response if the lift does not exit', done => {
+          this.request.delete('/api/v1/bodyareas/1/lifts/0', (err, res) => {
+            if(err) { return done(err) }
+            assert.equal(res.statusCode, 404)
+            done()
+          })
+        })
+      })
     })
   })
 })

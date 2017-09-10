@@ -207,6 +207,19 @@ app.post('/api/v1/bodyareas/:bodyarea_id/lifts/:lift_id', (req, res) => {
   .catch( () => { res.sendStatus(404) } )
 })
 
+app.delete('/api/v1/bodyareas/:bodyarea_id/lifts/:lift_id', (req, res) => {
+  const bodyareaId = req.params.bodyarea_id
+  const liftId = req.params.lift_id
+  database.raw(`DELETE FROM bodyarea_lifts WHERE lift_id = ? AND bodyarea_id = ?;`, [bodyareaId, liftId])
+  .then( data => {
+    if (data.rowCount < 1) {
+      res.sendStatus(404)
+    } else {
+      res.sendStatus(200)
+    }
+  })
+})
+
 if (!module.parent) {
   app.listen(app.get('port'), () => {
     console.log(`${app.locals.title} is running on ${app.get('port')}.`)
