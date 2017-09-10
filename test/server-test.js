@@ -283,5 +283,15 @@ describe('Server', () => {
         })
       })
     })
+
+    describe('DELETE /api/v1/bodyareas', () => {
+      it('should return a 200 status code', done => {
+        this.request.delete('/api/v1/bodyareas/1', (err, res) {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 200)
+          done()
+        })
+      })
+    })
   })
 })
