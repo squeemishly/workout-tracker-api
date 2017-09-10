@@ -305,7 +305,7 @@ describe('Server', () => {
     describe('bodyarea_lifts', () => {
       describe('GET bodyarea_lifts by bodyarea', () => {
         it('should return a 200 status code', done => {
-          this.request.get('/api/v1/bodyarea_lifts_by_bodyarea', (err, res) => {
+          this.request.get('/api/v1/bodyarea_lifts_by_bodyarea/4', (err, res) => {
             if(err) { return done(err) }
             assert.equal(res.statusCode, 200)
             done()
@@ -316,8 +316,8 @@ describe('Server', () => {
           this.request.get('/api/v1/bodyarea_lifts_by_bodyarea/4', (err, res) => {
             if(err) { return done(err) }
             const lifts = JSON.parse(res.body)
-            assert.equal(lifts.length, 2)
-            // assert.hasAllKeys(lifts[0], [])
+            assert.hasAllKeys(lifts, ["id", "name", "lifts"])
+            assert.hasAllKeys(lifts.lifts[0], ["id", "name"])
             done()
           })
         })

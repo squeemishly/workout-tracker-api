@@ -143,6 +143,31 @@ app.delete('/api/v1/bodyareas/:id', (req, res) => {
   })
 })
 
+app.get('/api/v1/bodyarea_lifts_by_bodyarea/:id', (req, res) => {
+  const { id } = req.params
+  database.raw(`SELECT bodyareas.id AS bodyarea_id, bodyareas.name AS bodyarea_name, lifts.id AS lift_id, lifts.name AS lift_name
+                FROM bodyareas
+                JOIN bodyarea_lifts
+                ON bodyareas.id = bodyarea_lifts.bodyarea_id
+                JOIN lifts
+                ON bodyarea_lifts.lift_id = lifts.id
+                WHERE bodyareas.id = ?
+                ORDER BY lifts.name;`, [id])
+  .then(data => {
+    const lifts = []
+    data.rows.forEach( (lift) => {
+      // const bodyareaId = lift.bodyarea_id
+      // const bodyareaName = lift.bodyarea_name
+      const liftId = lift.lift_id
+      const liftName = lift.lift_name
+      const liftObject = { id: liftId, name: liftName }
+      lifts.push(liftObject)
+    })
+    const liftObject = { id: data.rows[0].bodyarea_id,  name: data.rows[0].bodyarea_name, lifts: lifts}
+    return res.json(liftObject)
+  })
+})
+
 if (!module.parent) {
   app.listen(app.get('port'), () => {
     console.log(`${app.locals.title} is running on ${app.get('port')}.`)
