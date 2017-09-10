@@ -197,6 +197,16 @@ app.get('/api/v1/bodyareas_by_lift/:id', (req, res) => {
   })
 })
 
+app.post('/api/v1/bodyareas/:bodyarea_id/lifts/:lift_id', (req, res) => {
+  const bodyareaId = req.params.bodyarea_id
+  const liftId = req.params.lift_id
+  database.raw(`INSERT INTO bodyarea_lifts (lift_id, bodyarea_id) VALUES (?, ?)`, [bodyareaId, liftId])
+  .then( data => {
+    res.sendStatus(200)
+  })
+  .catch( () => { res.sendStatus(404) } )
+})
+
 if (!module.parent) {
   app.listen(app.get('port'), () => {
     console.log(`${app.locals.title} is running on ${app.get('port')}.`)

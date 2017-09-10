@@ -358,6 +358,24 @@ describe('Server', () => {
           })
         })
       })
+
+      describe('POST /api/v1/bodyareas/:id/lifts/:id', () => {
+        it('should return a 200 response', done => {
+          this.request.post('/api/v1/bodyareas/1/lifts/5', (err, res) => {
+            if(err) { return done(err) }
+            assert.equal(res.statusCode, 200)
+            done()
+          })
+        })
+
+        it('should return a 404 response if it cannot add to the database', done => {
+          this.request.post('/api/v1/bodyareas/0/lifts/0', (err, res) => {
+            if(err) { return done(err) }
+            assert.equal(res.statusCode, 404)
+            done()
+          })
+        })
+      })
     })
   })
 })
