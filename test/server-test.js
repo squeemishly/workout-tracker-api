@@ -193,7 +193,7 @@ describe('Server', () => {
         })
       })
 
-      it('should return the bodyarea identified', () => {
+      it('should return the bodyarea identified', done => {
         this.request.get('/api/v1/bodyareas/1', (err, res) => {
           if(err) { return done(err) }
           const bodyArea = JSON.parse(res.body)
