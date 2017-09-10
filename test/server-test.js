@@ -168,6 +168,14 @@ describe('Server', () => {
           done()
         })
       })
+
+      it('returns a 404 status if it does not exist', done => {
+        this.request.delete('api/v1/lifts/0', (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 404)
+          done()
+        })
+      })
     })
   })
 })
