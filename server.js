@@ -15,7 +15,7 @@ app.set('port', process.env.PORT || 3000)
 app.locals.title = 'Workout Tracker API'
 
 app.get('/api/v1/lifts', (req, res) => {
-  database.raw('SELECT id, name FROM lifts')
+  database.raw(`SELECT id, name FROM lifts`)
   .then( data => {
     return res.json(data.rows)
   })
@@ -40,7 +40,7 @@ app.post('/api/v1/lifts', (req, res) => {
   if (name === "") {
     res.sendStatus(400)
   } else {
-    database.raw('INSERT INTO lifts (name, created_at) VALUES (?, ?) RETURNING id, name', [name, new Date])
+    database.raw(`INSERT INTO lifts (name, created_at) VALUES (?, ?) RETURNING id, name`, [name, new Date])
     .then( data => {
       return res.json(data.rows)
     })
@@ -56,7 +56,7 @@ app.put('/api/v1/lifts/:id', (req, res) => {
   if (name === "") {
     res.sendStatus(400)
   } else {
-    database.raw('UPDATE lifts SET name = ? WHERE id = ? RETURNING id, name', [name, id])
+    database.raw(`UPDATE lifts SET name = ? WHERE id = ? RETURNING id, name`, [name, id])
     .then( data => {
       if (data.rows.length < 1) {
           res.sendStatus(404)
@@ -69,7 +69,7 @@ app.put('/api/v1/lifts/:id', (req, res) => {
 
 app.delete('/api/v1/lifts/:id', (req, res) => {
   const { id } = req.params
-  database.raw('DELETE FROM lifts WHERE id = ?', [id])
+  database.raw(`DELETE FROM lifts WHERE id = ?`, [id])
   .then(data => {
     if (data.rowCount < 1) {
       res.sendStatus(404)
@@ -80,7 +80,7 @@ app.delete('/api/v1/lifts/:id', (req, res) => {
 })
 
 app.get('/api/v1/bodyareas', (req, res) => {
-  database.raw('SELECT id, name FROM bodyareas')
+  database.raw(`SELECT id, name FROM bodyareas`)
   .then( data => {
     return res.json(data.rows)
   })
@@ -88,7 +88,7 @@ app.get('/api/v1/bodyareas', (req, res) => {
 
 app.get('/api/v1/bodyareas/:id', (req, res) => {
   const { id } = req.params
-  database.raw('SELECT id, name FROM bodyareas WHERE id = ?', [id])
+  database.raw(`SELECT id, name FROM bodyareas WHERE id = ?`, [id])
   .then(data => {
     if (data.rows.length < 1) {
       res.sendStatus(404)
@@ -96,6 +96,20 @@ app.get('/api/v1/bodyareas/:id', (req, res) => {
       return res.json(data.rows)
     }
   })
+})
+
+app.post('/api/v1/bodyareas', (req, res) => {
+  const ba = req.body.bodyareas
+  const name = ba.name
+
+  if (name === "") {
+    res.sendStatus(400)
+  } else {
+    database.raw(`INSERT INTO bodyareas (name, created_at) VALUES (?, ?) RETURNING id, name`, [name, new Date])
+    .then( data => {
+      return res.json(data.rows)
+    })
+  }
 })
 
 if (!module.parent) {
