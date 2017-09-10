@@ -330,6 +330,34 @@ describe('Server', () => {
           })
         })
       })
+
+      describe('GET /api/v1/bodyareas_by_lift/:id', () => {
+        it('should return a 200', done => {
+          this.request.get('/api/v1/bodyareas_by_lift/1', (err, res) => {
+            if(err) { return done(err) }
+            assert.equal(res.statusCode, 200)
+            done()
+          })
+        })
+
+        it('should return a list of bodyareas', done => {
+          this.request.get('/api/v1/bodyareas_by_lift/1', (err, res) => {
+            if(err) { return done(err) }
+            const bodyareas = JSON.parse(res.body)
+            assert.hasAllKeys(bodyareas, ["id", "name", "bodyareas"])
+            assert.hasAllKeys(bodyareas.bodyareas[0], ["id", "name"])
+            done()
+          })
+        })
+
+        it('should return a 404 if the bodyarea does not exist', done => {
+          this.request.get('/api/v1/bodyareas_by_lift/0', (err, res) => {
+            if(err) { return done(err) }
+            assert.equal(res.statusCode, 404)
+            done()
+          })
+        })
+      })
     })
   })
 })
