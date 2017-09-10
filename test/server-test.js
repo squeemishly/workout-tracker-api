@@ -211,5 +211,77 @@ describe('Server', () => {
         })
       })
     })
+
+    describe('POST /api/v1/bodyareas', () => {
+      it('should return a 200 status code', done => {
+        const ba = { "bodyarea": { "name": "Triceps" } }
+        this.request.post('/api/v1/bodyareas', { form: ba }, (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 200)
+          done()
+        })
+      })
+
+      it('should return the added bodyarea', done => {
+        const ba = { "bodyarea": { "name": "Triceps" } }
+        this.request.post('/api/v1/bodyareas', { form: ba }, (err, res) => {
+          if(err) { return done(err) }
+          const bodyArea = JSON.parse(res.body)
+          assert.equal(bodyArea.length, 1)
+          assert.hasAllKeys(bodyArea[0], ["id", "name"])
+          done()
+        })
+      })
+
+      it('should return a 400 if name is blank', done => {
+        const ba = { "bodyarea": { "name": "" } }
+        this.request.post('/api/v1/bodyareas', { form: ba }, (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 400)
+          done()
+        })
+      })
+    })
+
+    describe('PUT /api/v1/bodyareas', () => {
+      it('should return 200 status code', done => {
+        const ba = { "bodyarea": { "name": "Biceps" } }
+        this.request.put('/api/v1/bodyareas/1', { form: ba }, (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 200)
+          done()
+        })
+      })
+
+      it('should return the updated bodyarea', done => {
+        const ba = { "bodyarea": { "name": "Biceps" } }
+        this.request.put('/api/v1/bodyareas/1', { form: ba }, (err, res) => {
+          if(err) { return done(err) }
+          const bodyArea = JSON.parse(res.body)
+          assert.equal(bodyArea.length, 1)
+          assert.equal(bodyArea[0].name, "Biceps")
+          assert.hasAllKeys(bodyArea[0], ["id", "name"])
+          done()
+        })
+      })
+
+      it('should return 400 if name is blank', done => {
+        const ba = { "bodyarea": { "name": "" } }
+        this.request.put('/api/v1/bodyareas/1', { form: ba }, (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 400)
+          done()
+        })
+      })
+
+      it('should return 404 if the ID does not exist', done => {
+        const ba = { "bodyarea": { "name": "Biceps" } }
+        this.request.put('/api/v1/bodyareas/0', { form: ba }, (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 404)
+          done()
+        })
+      })
+    })
   })
 })
