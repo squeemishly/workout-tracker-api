@@ -79,6 +79,13 @@ app.delete('/api/v1/lifts/:id', (req, res) => {
   })
 })
 
+app.get('/api/v1/bodyareas', (req, res) => {
+  database.raw('SELECT id, name FROM bodyareas')
+  .then( data => {
+    return res.json(data.rows)
+  })
+})
+
 if (!module.parent) {
   app.listen(app.get('port'), () => {
     console.log(`${app.locals.title} is running on ${app.get('port')}.`)

@@ -32,7 +32,8 @@ describe('Server', () => {
   afterEach(done => {
     Promise.all([
       // console.log("it's running")
-      database.raw(`TRUNCATE lifts RESTART IDENTITY`),
+      database.raw(`TRUNCATE lifts RESTART IDENTITY CASCADE`),
+      database.raw(`TRUNCATE bodyareas RESTART IDENTITY CASCADE`),
     ])
     .then(() => done())
   })
@@ -41,7 +42,7 @@ describe('Server', () => {
     assert(app.get)
   })
 
-  describe('/lifts', () => {
+  describe('lifts', () => {
     describe('get all lifts', () => {
       it('should return a 200', done => {
         this.request.get('/api/v1/lifts', (err, res) => {
@@ -160,5 +161,27 @@ describe('Server', () => {
     //     })
     //   })
     // })
+  })
+
+  describe('bodyareas', () => {
+    describe('GET /api/v1/bodyareas', () => {
+      it('returns a 200 status', done => {
+        this.request.get('/api/v1/bodyareas', (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 200)
+          done()
+        })
+      })
+
+      it('should return a list of bodyareas', done => {
+        this.request.get('/api/v1/bodyareas', (err, res) => {
+          if(err) { return done(err) }
+          const bodyAreas = JSON.parse(res.body)
+          assert.equal(bodyAreas.length, 5)
+          assert.hasAllKeys(bodyAreas[0], ["id", "name"])
+          done()
+        })
+      })
+    })
   })
 })
