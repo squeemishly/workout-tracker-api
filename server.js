@@ -99,7 +99,7 @@ app.get('/api/v1/bodyareas/:id', (req, res) => {
 })
 
 app.post('/api/v1/bodyareas', (req, res) => {
-  const ba = req.body.bodyareas
+  const ba = req.body.bodyarea
   const name = ba.name
 
   if (name === "") {
@@ -110,6 +110,17 @@ app.post('/api/v1/bodyareas', (req, res) => {
       return res.json(data.rows)
     })
   }
+})
+
+app.put('/api/v1/bodyareas/:id', (req, res) => {
+  const { id } = req.params
+  const ba = req.body.bodyarea
+  const name = ba.name
+
+  database.raw(`UPDATE bodyareas SET name = ? WHERE id = ? RETURNING id, name`, [name, id])
+  .then(data => {
+    return res.json(data.rows)
+  })
 })
 
 if (!module.parent) {
