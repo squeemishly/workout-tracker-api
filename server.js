@@ -212,7 +212,11 @@ app.delete('/api/v1/bodyareas/:bodyarea_id/lifts/:lift_id', (req, res) => {
   const liftId = req.params.lift_id
   database.raw(`DELETE FROM bodyarea_lifts WHERE lift_id = ? AND bodyarea_id = ?;`, [bodyareaId, liftId])
   .then( data => {
+    if (data.rowCount < 1) {
+      res.sendStatus(404)
+    } else {
       res.sendStatus(200)
+    }
   })
 })
 
