@@ -154,7 +154,7 @@ app.get('/api/v1/bodyarea_lifts_by_bodyarea/:id', (req, res) => {
                 WHERE bodyareas.id = ?
                 ORDER BY lifts.name;`, [id])
   .then(data => {
-    if (data.rows < 1) {
+    if (data.rows.length < 1) {
       res.sendStatus(404)
     } else {
       const lifts = []
@@ -181,15 +181,19 @@ app.get('/api/v1/bodyareas_by_lift/:id', (req, res) => {
                 WHERE lifts.id = ?
                 ORDER BY bodyareas.name;`, [id])
   .then( data => {
-    const bodyareas = []
-    data.rows.forEach( bodyarea => {
-      const bodyareaId = bodyarea.bodyarea_id
-      const bodyareaName = bodyarea.bodyarea_name
-      const bodyareaObject = { "id": bodyareaId, "name": bodyareaName }
-      bodyareas.push(bodyareaObject)
-    })
-    const liftObject = { "id": data.rows[0].lift_id, "name": data.rows[0].lift_name, "bodyareas": bodyareas }
-    return res.json(liftObject)
+    if (data.rows.length < 1) {
+      res.sendStatus(404)
+    } else {
+      const bodyareas = []
+      data.rows.forEach( bodyarea => {
+        const bodyareaId = bodyarea.bodyarea_id
+        const bodyareaName = bodyarea.bodyarea_name
+        const bodyareaObject = { "id": bodyareaId, "name": bodyareaName }
+        bodyareas.push(bodyareaObject)
+      })
+      const liftObject = { "id": data.rows[0].lift_id, "name": data.rows[0].lift_name, "bodyareas": bodyareas }
+      return res.json(liftObject)
+    }
   })
 })
 
