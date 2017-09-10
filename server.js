@@ -154,17 +154,19 @@ app.get('/api/v1/bodyarea_lifts_by_bodyarea/:id', (req, res) => {
                 WHERE bodyareas.id = ?
                 ORDER BY lifts.name;`, [id])
   .then(data => {
-    const lifts = []
-    data.rows.forEach( (lift) => {
-      // const bodyareaId = lift.bodyarea_id
-      // const bodyareaName = lift.bodyarea_name
-      const liftId = lift.lift_id
-      const liftName = lift.lift_name
-      const liftObject = { id: liftId, name: liftName }
-      lifts.push(liftObject)
-    })
-    const liftObject = { id: data.rows[0].bodyarea_id,  name: data.rows[0].bodyarea_name, lifts: lifts}
-    return res.json(liftObject)
+    if (data.rows < 1) {
+      res.sendStatus(404)
+    } else {
+      const lifts = []
+      data.rows.forEach( (lift) => {
+        const liftId = lift.lift_id
+        const liftName = lift.lift_name
+        const liftObject = { id: liftId, name: liftName }
+        lifts.push(liftObject)
+      })
+      const liftObject = { id: data.rows[0].bodyarea_id,  name: data.rows[0].bodyarea_name, lifts: lifts}
+      return res.json(liftObject)
+    }
   })
 })
 

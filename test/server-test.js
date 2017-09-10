@@ -321,6 +321,14 @@ describe('Server', () => {
             done()
           })
         })
+
+        it('should return a 404 if the bodyarea does not exist', done => {
+          this.request.get('/api/v1/bodyarea_lifts_by_bodyarea/0', (err, res) => {
+            if(err) { return done(err) }
+            assert.equal(res.statusCode, 404)
+            done()
+          })
+        })
       })
     })
   })
