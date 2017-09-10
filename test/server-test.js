@@ -31,6 +31,7 @@ describe('Server', () => {
 
   afterEach(done => {
     Promise.all([
+      // console.log("it's running")
       database.raw(`TRUNCATE lifts RESTART IDENTITY`),
     ])
     .then(() => done())
@@ -90,7 +91,7 @@ describe('Server', () => {
     })
 
     describe('add a new lift', () => {
-      it('can add a new lift', done => {
+      it('should return details of the lift', done => {
         const lift = { "lift": { "name": "Leg Press", "bodyarea": "Hamstrings" } }
         this.request.post('/api/v1/lifts', { form: lift }, (err, res) => {
           if(err) { return done(err) }
@@ -120,20 +121,61 @@ describe('Server', () => {
       })
     })
 
-    // describe('edit a lift', () => {
-    //   it('can edit a lift', done => {
-    //     if(err) { return done(err) }
-    //
-    //     done()
-    //   })
-    // })
+    describe('edit a lift', () => {
+      it('can edit a lift and return the lift', done => {
+        const lift = { "lift": { "name": "Bench", "bodyarea": "Chest" } }
+        this.request.put('api/v1/lifts/1', { form: lift }, (err, res) => {
+          if(err) { return done(err) }
+          const editedLift = JSON.parse(res.body)
+          assert.equal(editedLift.length, 1)
+          assert.hasAllKeys(editedLift[0], ["id", "name", "bodyarea"])
+          assert.equal(editedLift[0].name, "Bench")
+          assert.notEqual(editedLift[0].name, "Bench Press")
+          done()
+        })
+      })
 
-    // describe('delete a lift', () => {
-    //   it('can delete the lift', done => {
-        // if(err) { return done(err) }
-        //
-        // done()
-    //   })
-    // })
+      it('returns a 404 if it receives an invalid food', done => {
+        const lift = { "lift": { "name": "Bench", "bodyarea": "Chest" } }
+        this.request.put('/api/v1/lifts/0', { form: lift }, (err, res) => {
+          assert.equal(res.statusCode, 404)
+          done()
+        })
+      })
+
+      it('returns 400 without name field', done => {
+        const lift = { "lift": { "bodyarea": "Chest" } }
+        this.request.put('api/v1/lifts/1', { form: lift }, (err, res) => {
+          assert.equal(res.statusCode, 400)
+          done()
+        })
+      })
+
+      it('returns 400 without bodyarea field', done => {
+        const lift = { "lift": { "name": "Bench" } }
+        this.request.put('api/v1/lifts/1', { form: lift }, (err, res) => {
+          assert.equal(res.statusCode, 400)
+          done()
+        })
+      })
+    })
+
+    describe('delete a lift', () => {
+      it('returns a 200 status', done => {
+        this.request.delete('api/v1/lifts/1', (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 200)
+          done()
+        })
+      })
+
+      it('returns a 404 status if it does not exist', done => {
+        this.request.delete('api/v1/lifts/0', (err, res) => {
+          if(err) { return done(err) }
+          assert.equal(res.statusCode, 404)
+          done()
+        })
+      })
+    })
   })
 })
