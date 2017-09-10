@@ -358,6 +358,25 @@ describe('Server', () => {
           })
         })
       })
+
+      describe('POST /api/v1/bodyareas/:id/lifts/:id', () => {
+        it('should return a 200 response', done => {
+          this.request.post('/api/v1/bodyareas/1/lifts/5', (err, res) => {
+            if(err) { return done(err) }
+            assert.equal(res.statusCode, 200)
+            done()
+          })
+        })
+
+        it('should return the added lift and bodyarea', done => {
+          this.request.post('/api/v1/bodyareas/1/lifts/5', (err, res) => {
+            if(err) { return done(err) }
+            const bodyareaLift = JSON.parse(res.body)
+            assert.hasAllKeys(bodyareaLift[0], ["bodyarea_id", "bodyarea_name", "lift_id", "lift_name"])
+            done()
+          })
+        })
+      })
     })
   })
 })
