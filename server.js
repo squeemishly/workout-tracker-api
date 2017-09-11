@@ -60,80 +60,18 @@ app.delete('/api/v1/bodyareas/:id', (req, res) => {
 
 app.get('/api/v1/bodyarea_lifts_by_bodyarea/:id', (req, res) => {
   BodyareaLiftsController.getLiftsByBodyarea(req, res)
-  // const { id } = req.params
-  // database.raw(`SELECT bodyareas.id AS bodyarea_id, bodyareas.name AS bodyarea_name, lifts.id AS lift_id, lifts.name AS lift_name
-  //               FROM bodyareas
-  //               JOIN bodyarea_lifts
-  //               ON bodyareas.id = bodyarea_lifts.bodyarea_id
-  //               JOIN lifts
-  //               ON bodyarea_lifts.lift_id = lifts.id
-  //               WHERE bodyareas.id = ?
-  //               ORDER BY lifts.name;`, [id])
-  // .then(data => {
-  //   if (data.rows.length < 1) {
-  //     res.sendStatus(404)
-  //   } else {
-  //     const lifts = []
-  //     data.rows.forEach( lift => {
-  //       const liftId = lift.lift_id
-  //       const liftName = lift.lift_name
-  //       const liftObject = { id: liftId, name: liftName }
-  //       lifts.push(liftObject)
-  //     })
-  //     const liftObject = { id: data.rows[0].bodyarea_id,  name: data.rows[0].bodyarea_name, lifts: lifts}
-  //     return res.json(liftObject)
-  //   }
-  // })
 })
 
 app.get('/api/v1/bodyareas_by_lift/:id', (req, res) => {
-  const { id } = req.params
-  database.raw(`SELECT lifts.id AS lift_id, lifts.name AS lift_name, bodyareas.id AS bodyarea_id, bodyareas.name AS bodyarea_name
-                FROM lifts
-                JOIN bodyarea_lifts
-                ON lifts.id = bodyarea_lifts.lift_id
-                JOIN bodyareas
-                ON bodyarea_lifts.bodyarea_id = bodyareas.id
-                WHERE lifts.id = ?
-                ORDER BY bodyareas.name;`, [id])
-  .then( data => {
-    if (data.rows.length < 1) {
-      res.sendStatus(404)
-    } else {
-      const bodyareas = []
-      data.rows.forEach( bodyarea => {
-        const bodyareaId = bodyarea.bodyarea_id
-        const bodyareaName = bodyarea.bodyarea_name
-        const bodyareaObject = { "id": bodyareaId, "name": bodyareaName }
-        bodyareas.push(bodyareaObject)
-      })
-      const liftObject = { "id": data.rows[0].lift_id, "name": data.rows[0].lift_name, "bodyareas": bodyareas }
-      return res.json(liftObject)
-    }
-  })
+  BodyareaLiftsController.getBodyareasForALift(req, res)
 })
 
 app.post('/api/v1/bodyareas/:bodyarea_id/lifts/:lift_id', (req, res) => {
-  const bodyareaId = req.params.bodyarea_id
-  const liftId = req.params.lift_id
-  database.raw(`INSERT INTO bodyarea_lifts (lift_id, bodyarea_id) VALUES (?, ?)`, [bodyareaId, liftId])
-  .then( data => {
-    res.sendStatus(200)
-  })
-  .catch( () => { res.sendStatus(404) } )
+  BodyareaLiftsController.createBodyareaLift(req, res)
 })
 
 app.delete('/api/v1/bodyareas/:bodyarea_id/lifts/:lift_id', (req, res) => {
-  const bodyareaId = req.params.bodyarea_id
-  const liftId = req.params.lift_id
-  database.raw(`DELETE FROM bodyarea_lifts WHERE lift_id = ? AND bodyarea_id = ?;`, [bodyareaId, liftId])
-  .then( data => {
-    if (data.rowCount < 1) {
-      res.sendStatus(404)
-    } else {
-      res.sendStatus(200)
-    }
-  })
+  BodyareaLiftsController.deleteBodyareaLift(req, res)
 })
 
 if (!module.parent) {
