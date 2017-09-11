@@ -13,6 +13,7 @@ class BodyareaLiftsController {
         res.sendStatus(404)
       } else {
         const lifts = []
+        
         data.rows.forEach( lift => {
           const liftId = lift.lift_id
           const liftName = lift.lift_name
@@ -27,14 +28,7 @@ class BodyareaLiftsController {
 
   static getBodyareasForALift(req, res) {
     const { id } = req.params
-    database.raw(`SELECT lifts.id AS lift_id, lifts.name AS lift_name, bodyareas.id AS bodyarea_id, bodyareas.name AS bodyarea_name
-                  FROM lifts
-                  JOIN bodyarea_lifts
-                  ON lifts.id = bodyarea_lifts.lift_id
-                  JOIN bodyareas
-                  ON bodyarea_lifts.bodyarea_id = bodyareas.id
-                  WHERE lifts.id = ?
-                  ORDER BY bodyareas.name;`, [id])
+    BodyareaLifts.getBodyareasForALift(id)
     .then( data => {
       if (data.rows.length < 1) {
         res.sendStatus(404)
@@ -55,7 +49,7 @@ class BodyareaLiftsController {
   static createBodyareaLift(req, res) {
     const bodyareaId = req.params.bodyarea_id
     const liftId = req.params.lift_id
-    database.raw(`INSERT INTO bodyarea_lifts (lift_id, bodyarea_id) VALUES (?, ?)`, [bodyareaId, liftId])
+    BodyareaLifts.createBodyareaLift(bodyareaId, liftId)
     .then( data => {
       res.sendStatus(200)
     })
@@ -65,7 +59,7 @@ class BodyareaLiftsController {
   static deleteBodyareaLift(req, res) {
     const bodyareaId = req.params.bodyarea_id
     const liftId = req.params.lift_id
-    database.raw(`DELETE FROM bodyarea_lifts WHERE lift_id = ? AND bodyarea_id = ?;`, [bodyareaId, liftId])
+    BodyareaLifts.deleteBodyareaLift(bodyareaId, liftId)
     .then( data => {
       if (data.rowCount < 1) {
         res.sendStatus(404)
