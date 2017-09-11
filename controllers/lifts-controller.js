@@ -1,9 +1,5 @@
 const Lifts = require('../models/lifts')
 
-const environment = process.env.NODE_ENV || 'development'
-const configuration = require('../knexfile')[environment]
-const database = require('knex')(configuration)
-
 class LiftsController {
   static getAllLifts(req, res) {
     Lifts.getAllLifts()
@@ -14,7 +10,7 @@ class LiftsController {
 
   static findLift(req, res) {
     const { id } = req.params
-    database.raw(`SELECT id, name FROM lifts WHERE id = ?`, [id])
+    Lifts.findLift(id)
     .then( data => {
       if (data.rows.length < 1) {
         res.sendStatus(404)
@@ -31,7 +27,7 @@ class LiftsController {
     if (name === "") {
       res.sendStatus(400)
     } else {
-      database.raw(`INSERT INTO lifts (name, created_at) VALUES (?, ?) RETURNING id, name`, [name, new Date])
+      Lifts.createLift(name)
       .then( data => {
         return res.json(data.rows)
       })
@@ -46,7 +42,7 @@ class LiftsController {
     if (name === "") {
       res.sendStatus(400)
     } else {
-      database.raw(`UPDATE lifts SET name = ? WHERE id = ? RETURNING id, name`, [name, id])
+      Lifts.updateLift(name, id)
       .then( data => {
         if (data.rows.length < 1) {
             res.sendStatus(404)
@@ -59,7 +55,7 @@ class LiftsController {
 
   static deleteLift(req, res) {
     const { id } = req.params
-    database.raw(`DELETE FROM lifts WHERE id = ?`, [id])
+    Lifts.deleteLift(id)
     .then(data => {
       if (data.rowCount < 1) {
         res.sendStatus(404)
