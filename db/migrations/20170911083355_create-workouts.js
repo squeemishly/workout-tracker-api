@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
       id SERIAL PRIMARY KEY NOT NULL,
       user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
       focus_area TEXT,
+      workout_date DATE,
       created_at TIMESTAMP
     )`
     return knex.raw(createQuery)
