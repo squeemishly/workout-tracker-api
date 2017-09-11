@@ -1,3 +1,5 @@
+const LiftsController = require('./controllers/lifts-controller')
+
 const express = require('express')
 const app = express()
 
@@ -15,10 +17,11 @@ app.set('port', process.env.PORT || 3000)
 app.locals.title = 'Workout Tracker API'
 
 app.get('/api/v1/lifts', (req, res) => {
-  database.raw(`SELECT id, name FROM lifts`)
-  .then( data => {
-    return res.json(data.rows)
-  })
+  LiftsController.getAllLifts(req, res)
+  // database.raw(`SELECT id, name FROM lifts`)
+  // .then( data => {
+  //   return res.json(data.rows)
+  // })
 })
 
 app.get('/api/v1/lifts/:id', (req, res) => {
