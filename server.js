@@ -1,4 +1,5 @@
 const LiftsController = require('./controllers/lifts-controller')
+const BodyareasController = require('./controllers/bodyareas-controller')
 
 const express = require('express')
 const app = express()
@@ -37,67 +38,23 @@ app.delete('/api/v1/lifts/:id', (req, res) => {
 })
 
 app.get('/api/v1/bodyareas', (req, res) => {
-  database.raw(`SELECT id, name FROM bodyareas`)
-  .then( data => {
-    return res.json(data.rows)
-  })
+  BodyareasController.getAllBodyareas(res)
 })
 
 app.get('/api/v1/bodyareas/:id', (req, res) => {
-  const { id } = req.params
-  database.raw(`SELECT id, name FROM bodyareas WHERE id = ?`, [id])
-  .then(data => {
-    if (data.rows.length < 1) {
-      res.sendStatus(404)
-    } else {
-      return res.json(data.rows)
-    }
-  })
+  BodyareasController.findBodyarea(req, res)
 })
 
 app.post('/api/v1/bodyareas', (req, res) => {
-  const ba = req.body.bodyarea
-  const name = ba.name
-
-  if (name === "") {
-    res.sendStatus(400)
-  } else {
-    database.raw(`INSERT INTO bodyareas (name, created_at) VALUES (?, ?) RETURNING id, name`, [name, new Date])
-    .then( data => {
-      return res.json(data.rows)
-    })
-  }
+  BodyareasController.createBodyareas(req, res)
 })
 
 app.put('/api/v1/bodyareas/:id', (req, res) => {
-  const { id } = req.params
-  const ba = req.body.bodyarea
-  const name = ba.name
-
-  if (name === "") {
-    res.sendStatus(400)
-  } else {
-    database.raw(`UPDATE bodyareas SET name = ? WHERE id = ? RETURNING id, name`, [name, id])
-    .then(data => {
-      if (data.rows.length < 1) {
-        res.sendStatus(404)
-      } else {
-        return res.json(data.rows)
-      }
-    })
-  }
+  BodyareasController.updateBodyarea(req, res)
 })
 
 app.delete('/api/v1/bodyareas/:id', (req, res) => {
-  const { id } = req.params
-  database.raw(`DELETE FROM bodyareas WHERE id = ?`, [id])
-  .then(data => {
-    if (data.rowCount < 1) {
-      res.sendStatus(404)
-    } else {
-      res.sendStatus(200)
-    }
-  })
+  BodyareasController.deleteBodyarea(req, res)
 })
 
 app.get('/api/v1/bodyarea_lifts_by_bodyarea/:id', (req, res) => {
