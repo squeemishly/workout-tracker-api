@@ -7,14 +7,13 @@ const database = require('knex')(configuration)
 class BodyareasController {
  static getAllBodyareas(res) {
    Bodyareas.getAllBodyareas()
-  //  database.raw(`SELECT id, name FROM bodyareas`)
    .then( data => {
      return res.json(data.rows)
    })
  }
   static findBodyarea(req, res) {
     const { id } = req.params
-    database.raw(`SELECT id, name FROM bodyareas WHERE id = ?`, [id])
+    Bodyareas.findBodyarea(id)
     .then(data => {
       if (data.rows.length < 1) {
        res.sendStatus(404)
@@ -31,7 +30,7 @@ class BodyareasController {
     if (name === "") {
       res.sendStatus(400)
     } else {
-      database.raw(`INSERT INTO bodyareas (name, created_at) VALUES (?, ?) RETURNING id, name`, [name, new Date])
+      Bodyareas.createBodyareas(name)
       .then( data => {
         return res.json(data.rows)
       })
@@ -46,7 +45,7 @@ class BodyareasController {
     if (name === "") {
       res.sendStatus(400)
     } else {
-      database.raw(`UPDATE bodyareas SET name = ? WHERE id = ? RETURNING id, name`, [name, id])
+      Bodyareas.updateBodyarea(id, name)
       .then(data => {
         if (data.rows.length < 1) {
           res.sendStatus(404)
@@ -59,7 +58,7 @@ class BodyareasController {
 
   static deleteBodyarea(req, res) {
     const { id } = req.params
-    database.raw(`DELETE FROM bodyareas WHERE id = ?`, [id])
+    Bodyareas.deleteBodyarea(id)
     .then(data => {
       if (data.rowCount < 1) {
         res.sendStatus(404)
