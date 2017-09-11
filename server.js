@@ -1,4 +1,5 @@
 const LiftsController = require('./controllers/lifts-controller')
+const BodyareasController = require('./controllers/bodyareas-controller')
 
 const express = require('express')
 const app = express()
@@ -37,10 +38,11 @@ app.delete('/api/v1/lifts/:id', (req, res) => {
 })
 
 app.get('/api/v1/bodyareas', (req, res) => {
-  database.raw(`SELECT id, name FROM bodyareas`)
-  .then( data => {
-    return res.json(data.rows)
-  })
+  BodyareasController.getAllBodyareas(res)
+  // database.raw(`SELECT id, name FROM bodyareas`)
+  // .then( data => {
+  //   return res.json(data.rows)
+  // })
 })
 
 app.get('/api/v1/bodyareas/:id', (req, res) => {
