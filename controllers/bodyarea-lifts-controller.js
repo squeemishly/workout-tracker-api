@@ -13,13 +13,7 @@ class BodyareaLiftsController {
         res.sendStatus(404)
       } else {
         const lifts = []
-        
-        data.rows.forEach( lift => {
-          const liftId = lift.lift_id
-          const liftName = lift.lift_name
-          const liftObject = { id: liftId, name: liftName }
-          lifts.push(liftObject)
-        })
+        this.createLifts(data, lifts)
         const liftObject = { id: data.rows[0].bodyarea_id,  name: data.rows[0].bodyarea_name, lifts: lifts}
         return res.json(liftObject)
       }
@@ -34,12 +28,7 @@ class BodyareaLiftsController {
         res.sendStatus(404)
       } else {
         const bodyareas = []
-        data.rows.forEach( bodyarea => {
-          const bodyareaId = bodyarea.bodyarea_id
-          const bodyareaName = bodyarea.bodyarea_name
-          const bodyareaObject = { "id": bodyareaId, "name": bodyareaName }
-          bodyareas.push(bodyareaObject)
-        })
+        this.createBodyareas(data, bodyareas)
         const liftObject = { "id": data.rows[0].lift_id, "name": data.rows[0].lift_name, "bodyareas": bodyareas }
         return res.json(liftObject)
       }
@@ -66,6 +55,24 @@ class BodyareaLiftsController {
       } else {
         res.sendStatus(200)
       }
+    })
+  }
+
+  static createLifts(data, lifts) {
+    data.rows.map( lift => {
+      const liftId = lift.lift_id
+      const liftName = lift.lift_name
+      const liftObject = { id: liftId, name: liftName }
+      return lifts.push(liftObject)
+    })
+  }
+
+  static createBodyareas(data, bodyareas) {
+    data.rows.forEach( bodyarea => {
+      const bodyareaId = bodyarea.bodyarea_id
+      const bodyareaName = bodyarea.bodyarea_name
+      const bodyareaObject = { "id": bodyareaId, "name": bodyareaName }
+      bodyareas.push(bodyareaObject)
     })
   }
 }
