@@ -1,3 +1,5 @@
+const BodyareaLifts = require('../models/bodyarea-lifts')
+
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../knexfile')[environment]
 const database = require('knex')(configuration)
@@ -5,14 +7,7 @@ const database = require('knex')(configuration)
 class BodyareaLiftsController {
   static getLiftsByBodyarea(req, res) {
     const { id } = req.params
-    database.raw(`SELECT bodyareas.id AS bodyarea_id, bodyareas.name AS bodyarea_name, lifts.id AS lift_id, lifts.name AS lift_name
-                  FROM bodyareas
-                  JOIN bodyarea_lifts
-                  ON bodyareas.id = bodyarea_lifts.bodyarea_id
-                  JOIN lifts
-                  ON bodyarea_lifts.lift_id = lifts.id
-                  WHERE bodyareas.id = ?
-                  ORDER BY lifts.name;`, [id])
+    BodyareaLifts.getLiftsByBodyarea(id)
     .then(data => {
       if (data.rows.length < 1) {
         res.sendStatus(404)
