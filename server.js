@@ -2,6 +2,7 @@ const LiftsController = require('./controllers/lifts-controller')
 const BodyareasController = require('./controllers/bodyareas-controller')
 const BodyareaLiftsController = require('./controllers/bodyarea-lifts-controller')
 const WorkoutsController = require('./controllers/workouts-controller')
+const UsersController = require('./controllers/users-controller')
 
 const express = require('express')
 const app = express()
@@ -11,10 +12,6 @@ const bodyParser = require('body-parser')
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('./knexfile')[environment]
 const database = require('knex')(configuration)
-
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-const randtoken = require('rand-token')
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -84,20 +81,7 @@ app.get('/api/v1/users/:user_id/workouts', (req, res) => {
 })
 
 app.post('/api/v1/users', (req, res) => {
-  const { name } = req.body
-  const { email } = req.body
-  const { password } = req.body
-  if ( name === "" || email === "" || password === "" ) {
-    res.sendStatus(400)
-  } else {
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-      const token = randtoken.generate(64)
-      database.raw(`INSERT INTO users (name, email, password, token) VALUES (?, ?, ?, ?) RETURNING id, name, email`, [name, email, hash, token])
-      .then( data => {
-        res.json(data.rows)
-      })
-    })
-  }
+  UsersController.createNewUser(req, res)
 })
 
 if (!module.parent) {
