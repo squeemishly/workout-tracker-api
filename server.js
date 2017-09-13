@@ -91,18 +91,42 @@ app.post('/api/v1/users', (req, res) => {
 
 app.get('/api/v1/users/:id', (req, res) => {
   const { id } = req.params
-  // const token = randtoken.generate(64)
-  // database.raw(`UPDATE users SET token = ? WHERE id = ?`, [token, id])
-  // .then( data => {
-    database.raw(`SELECT users.id, users.name, email, roles.name AS role FROM users JOIN roles ON users.role_id = roles.id WHERE users.id = ?`, [id])
-    .then( data => {
-      if (data.rows.length < 1) {
-        res.sendStatus(404)
-      } else {
-        res.json(data.rows)
-      }
+  database.raw(`SELECT users.id, users.name, email, roles.name AS role FROM users JOIN roles ON users.role_id = roles.id WHERE users.id = ?`, [id])
+  .then( data => {
+    if (data.rows.length < 1) {
+      res.sendStatus(404)
+    } else {
+      res.json(data.rows)
+    }
+  })
+})
+
+app.post('/login', (req, res) => {
+  const email = req.body.email
+  const password = req.body.password
+  database.raw(`SELECT id, password FROM users WHERE users.email = ?`, [email])
+  .then( data => {
+    const hash = data.rows[0].password
+    const id = data.rows[0].id
+    console.log(password)
+    console.log(hash)
+    bcrypt.compare(password, hash, (err, response) => {
+      console.log(response)
+      /////// if response === true, then create token, DB call to set token for users
+      /////// promise to return json'd data of name, email, & token
+      /////// else, return 404?
+      // var token = randtoken.generate(64)
+      // if (response === true) {
+      //   database.raw(`UPDATE users SET token = ? WHERE id = ? RETURNING id, name, email, token`, [token, id])
+      //   .then( userInfo => {
+      //     res.json(userInfo.rows[0])
+      //   })
+      // } else {
+      //   res.sendStatus(404)
+      // }
     })
-  // })
+
+  })
 })
 
 if (!module.parent) {

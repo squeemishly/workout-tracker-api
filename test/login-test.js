@@ -26,6 +26,7 @@ describe('Server', () => {
 
   describe('/login', () => {
     it('should return a 200 status', done => {
+      const userInfo = { "email": "xena@xena.com", "password": "password"}
       this.request.get('/login', (err, res) => {
         if(err) { return done(err) }
         assert.equal(res.statusCode, 200)
@@ -35,7 +36,7 @@ describe('Server', () => {
 
     it('should return a users info', done => {
       const userInfo = { "email": "xena@xena.com", "password": "password"}
-      this.request.get('/login', (err, res) => {
+      this.request.post('/login', { form: userInfo }, (err, res) => {
         if(err) { return done(err) }
         const user = JSON.parse(res.body)
         assert.hasAllKeys(user, ["id", "name", "email", "token"])
