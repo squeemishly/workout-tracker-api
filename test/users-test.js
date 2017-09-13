@@ -88,7 +88,7 @@ describe("Users", () => {
         if(err) { return done(err) }
         const user = JSON.parse(res.body)
         assert.equal(user.length, 1)
-        assert.hasAllKeys(user, ["id", "name", "email", "role", "token"])
+        assert.hasAllKeys(user[0], ["id", "name", "email", "role", "token"])
         done()
       })
     })

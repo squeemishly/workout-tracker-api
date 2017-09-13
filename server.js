@@ -9,9 +9,14 @@ const app = express()
 
 const cors = require('cors')
 const bodyParser = require('body-parser')
+
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('./knexfile')[environment]
 const database = require('knex')(configuration)
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const randtoken = require('rand-token')
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -82,6 +87,18 @@ app.get('/api/v1/users/:user_id/workouts', (req, res) => {
 
 app.post('/api/v1/users', (req, res) => {
   UsersController.createNewUser(req, res)
+})
+
+app.get('/api/v1/users/:id', (req, res) => {
+  const { id } = req.params
+  const token = randtoken.generate(64)
+  database.raw(`UPDATE users SET token = ? WHERE id = ?`, [token, id])
+  .then( data => {
+    database.raw(`SELECT users.id, users.name, email, token, roles.name AS role FROM users JOIN roles ON users.role_id = roles.id WHERE users.id = ?`, [id])
+    .then( data => {
+      res.json(data.rows)
+    })
+  })
 })
 
 if (!module.parent) {
