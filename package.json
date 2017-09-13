@@ -19,11 +19,13 @@
   },
   "homepage": "https://github.com/squeemishly/wt-api#readme",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.0",
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "knex": "^0.13.0",
     "pg": "^7.3.0",
+    "rand-token": "^0.3.0",
     "request": "^2.81.0"
   },
   "devDependencies": {
