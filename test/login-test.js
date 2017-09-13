@@ -34,10 +34,11 @@ describe('Server', () => {
     })
 
     it('should return a users info', done => {
-      const userInfo = { "email": , "password": }
+      const userInfo = { "email": "xena@xena.com", "password": "password"}
       this.request.get('/login', (err, res) => {
         if(err) { return done(err) }
-        const user =
+        const user = JSON.parse(res.body)
+        assert.hasAllKeys(user, ["id", "name", "email", "token"])
         done()
       })
     })
