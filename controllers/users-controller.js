@@ -1,3 +1,5 @@
+const Users = require('../models/users')
+
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../knexfile')[environment]
 const database = require('knex')(configuration)
@@ -16,7 +18,8 @@ class UsersController {
     } else {
       bcrypt.hash(password, saltRounds, (err, hash) => {
         const token = randtoken.generate(64)
-        database.raw(`INSERT INTO users (name, email, password, token) VALUES (?, ?, ?, ?) RETURNING id, name, email`, [name, email, hash, token])
+        Users.createNewUser(name, email, hash, token)
+        // database.raw(`INSERT INTO users (name, email, password, token) VALUES (?, ?, ?, ?) RETURNING id, name, email`, [name, email, hash, token])
         .then( data => {
           res.json(data.rows)
         })
