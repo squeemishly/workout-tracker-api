@@ -7,7 +7,7 @@ const configuration = require('../knexfile')[environment]
 const database = require('knex')(configuration)
 
 
-describe('Server', () => {
+describe('Users', () => {
   before( done => {
     this.port = 9876
     this.server = app.listen(this.port, (err, result) => {
@@ -24,7 +24,7 @@ describe('Server', () => {
     this.server.close()
   })
 
-  describe('POST /users' () => {
+  describe('POST /users', () => {
     it("should return a 200 status", done => {
       const newUser = { "name": "Rebecca P Czarnecki", "email": "rebecca@czarnecki.com", "password": "passwordify", "token": "" }
       this.request.post('/api/v1/users', { form: newUser }, (err, res) => {
@@ -39,7 +39,9 @@ describe('Server', () => {
       const newUser = { "name": "Rebecca P Czarnecki", "email": "rebecca@czarnecki.com", "password": "passwordify", "token": "" }
       this.request.post('/api/v1/users', { form: newUser }, (err, res) => {
         if(err) { return done(err) }
-
+        const user = JSON.parse(res.body)
+        assert.equal(user.length, 1)
+        assert.hasAllKeys(user[0], ["id", "name", "email"])
         done()
       })
     })

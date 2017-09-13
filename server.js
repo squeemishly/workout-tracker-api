@@ -12,6 +12,10 @@ const environment = process.env.NODE_ENV || 'development'
 const configuration = require('./knexfile')[environment]
 const database = require('knex')(configuration)
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const randtoken = require('rand-token')
+
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -77,6 +81,19 @@ app.delete('/api/v1/bodyareas/:bodyarea_id/lifts/:lift_id', (req, res) => {
 
 app.get('/api/v1/users/:user_id/workouts', (req, res) => {
   WorkoutsController.getUserWorkouts(req, res)
+})
+
+app.post('/api/v1/users', (req, res) => {
+  const { name } = req.body
+  const { email } = req.body
+  const { password } = req.body
+  bcrypt.hash(password, saltRounds, (err, hash) => {
+    const token = randtoken.generate(64)
+    database.raw(`INSERT INTO users (name, email, password, token) VALUES (?, ?, ?, ?) RETURNING id, name, email`, [name, email, hash, token])
+    .then( data => {
+      res.json(data.rows)
+    })
+  })
 })
 
 if (!module.parent) {
