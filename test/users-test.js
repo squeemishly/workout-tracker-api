@@ -26,7 +26,7 @@ describe('Users', () => {
 
   describe('POST /users', () => {
     it("should return a 200 status", done => {
-      const newUser = { "name": "Rebecca P Czarnecki", "email": "rebecca@czarnecki.com", "password": "passwordify", "token": "" }
+      const newUser = { "name": "Rebecca P Czarnecki", "email": "rebecca@czarnecki.com", "password": "passwordify" }
       this.request.post('/api/v1/users', { form: newUser }, (err, res) => {
         if(err) { return done(err) }
         assert.equal(res.statusCode, 200)
@@ -36,12 +36,39 @@ describe('Users', () => {
 
     it("should return ?????", done => {
       //// does this return a token? a user id? a unicorn?
-      const newUser = { "name": "Rebecca P Czarnecki", "email": "rebecca@czarnecki.com", "password": "passwordify", "token": "" }
+      const newUser = { "name": "Rebecca P Czarnecki", "email": "rebecca@czarnecki.com", "password": "passwordify" }
       this.request.post('/api/v1/users', { form: newUser }, (err, res) => {
         if(err) { return done(err) }
         const user = JSON.parse(res.body)
         assert.equal(user.length, 1)
         assert.hasAllKeys(user[0], ["id", "name", "email"])
+        done()
+      })
+    })
+
+    it("should retun 400 if there is no name", done => {
+      const newUser = { "name": "", "email": "rebecca@czarnecki.com", "password": "passwordify" }
+      this.request.post('/api/v1/users', { form: newUser }, (err, res) => {
+        if(err) { return done(err) }
+        assert.equal(res.statusCode, 400)
+        done()
+      })
+    })
+
+    it("should retun 400 if there is no password", done => {
+      const newUser = { "name": "Rebecca P Czarnecki", "email": "", "password": "passwordify" }
+      this.request.post('/api/v1/users', { form: newUser }, (err, res) => {
+        if(err) { return done(err) }
+        assert.equal(res.statusCode, 400)
+        done()
+      })
+    })
+
+    it("should retun 400 if there is no password", done => {
+      const newUser = { "name": "Rebecca P Czarnecki", "email": "rebecca@czarnecki.com", "password": "" }
+      this.request.post('/api/v1/users', { form: newUser }, (err, res) => {
+        if(err) { return done(err) }
+        assert.equal(res.statusCode, 400)
         done()
       })
     })
