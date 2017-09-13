@@ -112,6 +112,7 @@ app.post('/login', (req, res) => {
     console.log(hash)
     bcrypt.compare(password, hash, (err, response) => {
       console.log(response)
+      console.log(err)
       /////// if response === true, then create token, DB call to set token for users
       /////// promise to return json'd data of name, email, & token
       /////// else, return 404?

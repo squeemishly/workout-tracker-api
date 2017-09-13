@@ -17,6 +17,7 @@ class UsersController {
       res.sendStatus(400)
     } else {
       bcrypt.hash(password, saltRounds, (err, hash) => {
+        console.log(hash)
         const token = randtoken.generate(64)
         Users.createNewUser(name, email, hash, token)
         // database.raw(`INSERT INTO users (name, email, password, token) VALUES (?, ?, ?, ?) RETURNING id, name, email`, [name, email, hash, token])

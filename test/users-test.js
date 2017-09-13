@@ -55,7 +55,7 @@ describe("Users", () => {
       })
     })
 
-    it("should retun 400 if there is no password", done => {
+    it("should retun 400 if there is no email", done => {
       const newUser = { "name": "Rebecca P Czarnecki", "email": "", "password": "passwordify" }
       this.request.post("/api/v1/users", { form: newUser }, (err, res) => {
         if(err) { return done(err) }
