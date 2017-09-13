@@ -88,7 +88,15 @@ describe("Users", () => {
         if(err) { return done(err) }
         const user = JSON.parse(res.body)
         assert.equal(user.length, 1)
-        assert.hasAllKeys(user[0], ["id", "name", "email", "role", "token"])
+        assert.hasAllKeys(user[0], ["id", "name", "email", "role"])
+        done()
+      })
+    })
+
+    it("should return a 404 for user not found", done => {
+      this.request.get("/api/v1/users/0", (err, res) => {
+        if(err) { return done(err) }
+        assert.equal(res.statusCode, 404)
         done()
       })
     })
