@@ -7,7 +7,7 @@ const configuration = require('../knexfile')[environment]
 const database = require('knex')(configuration)
 
 
-describe('Server', () => {
+describe('Login', () => {
   before( done => {
     this.port = 9876
     this.server = app.listen(this.port, (err, result) => {
