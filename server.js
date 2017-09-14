@@ -98,6 +98,10 @@ app.post('/login', (req, res) => {
   LoginController.userLogin(req, res)
 })
 
+app.post('/logout', (req, res) => {
+  LoginController.userLogout(req, res)
+})
+
 if (!module.parent) {
   app.listen(app.get('port'), () => {
     console.log(`${app.locals.title} is running on ${app.get('port')}.`)

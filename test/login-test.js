@@ -81,4 +81,24 @@ describe('Login', () => {
       })
     })
   })
+
+  describe('/logout', () => {
+    it('should return a 404 if the token does not match', done => {
+      const userInfo = { "id": 2, "token": "jlHxE2iQQYKgINkcwtsyZ0r4qLNjYs1wTNBeXcUgyg5VrFVscw5zMI8HcE1fQVWC" }
+      this.request.post('/logout', { form: userInfo }, (err, res) => {
+        if(err) { return done(err) }
+        assert.equal(res.statusCode, 404)
+        done()
+      })
+    })
+
+    it('should return a 404 if user not found', done => {
+      const userInfo = { "id": 0, "token": "jlHxE2iQQYKgINkcwtsyZ0r4qLNjYs1wTNBeXcUgyg5VrFVscw5zMI8HcE1fQVWC" }
+      this.request.post('/logout', { form: userInfo }, (err, res) => {
+        if(err) { return done(err) }
+        assert.equal(res.statusCode, 404)
+        done()
+      })
+    })
+  })
 })

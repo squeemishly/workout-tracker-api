@@ -33,6 +33,26 @@ class LoginController {
       }
     })
   }
+
+  static userLogout(req, res) {
+    const id = req.body.id
+    const token = req.body.token
+    Login.findToken(id)
+    .then( tokenDB => {
+      if (tokenDB === token) {
+        Login.removeToken(id)
+        .then( data => {
+          if (data.rowCount < 1) {
+            res.sendStatus(404)
+          } else {
+            res.sendStatus(200)
+          }
+        })
+      } else {
+        res.sendStatus(404)
+      }
+    })
+  }
 }
 
 module.exports = LoginController
