@@ -33,6 +33,14 @@ class LoginController {
       }
     })
   }
+
+  static userLogout(req, res) {
+    const id = req.body.id
+    database.raw(`UPDATE users SET token = NULL WHERE id = ?`, [id])
+    .then( data => {
+      res.sendStatus(200)
+    })
+  }
 }
 
 module.exports = LoginController

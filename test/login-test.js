@@ -81,4 +81,15 @@ describe('Login', () => {
       })
     })
   })
+
+  describe('/logout', () => {
+    it('should return a 200 status', done => {
+      const userInfo = { "id": 2, "token": "jlHxE2iQQYKgINkcwtsyZ0r4qLNjYs1wTNBeXcUgyg5VrFVscw5zMI8HcE1fQVWC" }
+      this.request.post('/logout', { form: userInfo }, (err, res) => {
+        if(err) { return done(err) }
+        assert.equal(res.statusCode, 200)
+        done()
+      })
+    })
+  })
 })
