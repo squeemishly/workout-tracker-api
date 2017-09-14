@@ -91,15 +91,16 @@ app.post('/api/v1/users', (req, res) => {
 })
 
 app.get('/api/v1/users/:id', (req, res) => {
-  const { id } = req.params
-  database.raw(`SELECT users.id, users.name, email, roles.name AS role FROM users JOIN roles ON users.role_id = roles.id WHERE users.id = ?`, [id])
-  .then( data => {
-    if (data.rows.length < 1) {
-      res.sendStatus(404)
-    } else {
-      res.json(data.rows)
-    }
-  })
+  UsersController.findUser(req, res)
+  // const { id } = req.params
+  // database.raw(`SELECT users.id, users.name, email, roles.name AS role FROM users JOIN roles ON users.role_id = roles.id WHERE users.id = ?`, [id])
+  // .then( data => {
+  //   if (data.rows.length < 1) {
+  //     res.sendStatus(404)
+  //   } else {
+  //     res.json(data.rows)
+  //   }
+  // })
 })
 
 app.post('/login', (req, res) => {
