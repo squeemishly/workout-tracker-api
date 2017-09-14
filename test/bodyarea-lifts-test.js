@@ -34,6 +34,8 @@ describe('Server', () => {
       database.raw(`TRUNCATE lifts RESTART IDENTITY CASCADE`),
       database.raw(`TRUNCATE bodyareas RESTART IDENTITY CASCADE`),
       database.raw(`TRUNCATE bodyarea_lifts RESTART IDENTITY CASCADE`),
+      database.raw(`TRUNCATE roles RESTART IDENTITY CASCADE`),
+      database.raw(`TRUNCATE users RESTART IDENTITY CASCADE`),
     ])
     .then(() => done())
   })

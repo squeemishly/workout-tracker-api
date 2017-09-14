@@ -4,8 +4,8 @@ exports.up = function(knex, Promise) {
       id SERIAL PRIMARY KEY NOT NULL,
       name TEXT,
       email TEXT,
-      password VARCHAR(255),
-      token VARCHAR(64),
+      password TEXT,
+      token TEXT,
       role_id INTEGER REFERENCES roles(id) ON DELETE CASCADE,
       created_at TIMESTAMP
     )`

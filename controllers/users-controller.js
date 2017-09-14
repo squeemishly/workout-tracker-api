@@ -19,12 +19,23 @@ class UsersController {
       bcrypt.hash(password, saltRounds, (err, hash) => {
         const token = randtoken.generate(64)
         Users.createNewUser(name, email, hash, token)
-        // database.raw(`INSERT INTO users (name, email, password, token) VALUES (?, ?, ?, ?) RETURNING id, name, email`, [name, email, hash, token])
         .then( data => {
           res.json(data.rows)
         })
       })
     }
+  }
+
+  static findUser(req, res) {
+    const { id } = req.params
+    Users.findUser(id)
+    .then( data => {
+      if (data.rows.length < 1) {
+        res.sendStatus(404)
+      } else {
+        res.json(data.rows)
+      }
+    })
   }
 }
 

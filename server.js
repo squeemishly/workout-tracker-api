@@ -3,6 +3,7 @@ const BodyareasController = require('./controllers/bodyareas-controller')
 const BodyareaLiftsController = require('./controllers/bodyarea-lifts-controller')
 const WorkoutsController = require('./controllers/workouts-controller')
 const UsersController = require('./controllers/users-controller')
+const LoginController = require('./controllers/login-controller')
 
 const express = require('express')
 const app = express()
@@ -90,19 +91,20 @@ app.post('/api/v1/users', (req, res) => {
 })
 
 app.get('/api/v1/users/:id', (req, res) => {
-  const { id } = req.params
-  // const token = randtoken.generate(64)
-  // database.raw(`UPDATE users SET token = ? WHERE id = ?`, [token, id])
+  UsersController.findUser(req, res)
+  // const { id } = req.params
+  // database.raw(`SELECT users.id, users.name, email, roles.name AS role FROM users JOIN roles ON users.role_id = roles.id WHERE users.id = ?`, [id])
   // .then( data => {
-    database.raw(`SELECT users.id, users.name, email, roles.name AS role FROM users JOIN roles ON users.role_id = roles.id WHERE users.id = ?`, [id])
-    .then( data => {
-      if (data.rows.length < 1) {
-        res.sendStatus(404)
-      } else {
-        res.json(data.rows)
-      }
-    })
+  //   if (data.rows.length < 1) {
+  //     res.sendStatus(404)
+  //   } else {
+  //     res.json(data.rows)
+  //   }
   // })
+})
+
+app.post('/login', (req, res) => {
+  LoginController.userLogin(req, res)
 })
 
 if (!module.parent) {
