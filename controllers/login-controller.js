@@ -36,12 +36,20 @@ class LoginController {
 
   static userLogout(req, res) {
     const id = req.body.id
-    database.raw(`UPDATE users SET token = NULL WHERE id = ?`, [id])
-    .then( data => {
-      if (data.rowCount < 1) {
-        res.sendStatus(404)
+    const token = req.body.token
+    database.raw(`SELECT token FROM users WHERE id = ?`, [id])
+    .then( tokenDB => {
+      if (tokenDB === token) {
+        database.raw(`UPDATE users SET token = NULL WHERE id = ?`, [id])
+        .then( data => {
+          if (data.rowCount < 1) {
+            res.sendStatus(404)
+          } else {
+            res.sendStatus(200)
+          }
+        })
       } else {
-        res.sendStatus(200)
+        res.sendStatus(404)
       }
     })
   }
