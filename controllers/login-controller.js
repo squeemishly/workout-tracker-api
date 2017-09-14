@@ -38,7 +38,11 @@ class LoginController {
     const id = req.body.id
     database.raw(`UPDATE users SET token = NULL WHERE id = ?`, [id])
     .then( data => {
-      res.sendStatus(200)
+      if (data.rowCount < 1) {
+        res.sendStatus(404)
+      } else {
+        res.sendStatus(200)
+      }
     })
   }
 }
