@@ -10,7 +10,7 @@ class Workouts {
   }
 
   static getLiftInfo(workoutId) {
-    return database.raw(`SELECT lifts.name, sets.reps, sets.weight
+    return database.raw(`SELECT workout_lifts.workout_id AS workout_id, lifts.name, sets.reps, sets.weight
                           FROM workout_lifts
                           JOIN lifts
                           ON workout_lifts.lift_id = lifts.id

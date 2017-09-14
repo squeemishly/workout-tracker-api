@@ -55,9 +55,10 @@ describe('Server', () => {
     it('should return a list of workouts for a particular user', done => {
       this.request.get('/api/v1/users/2/workouts', (err, res) => {
         if(err) { return done(err) }
-        const workout = JSON.parse(res.body)
-        assert.hasAllKeys(workout, ["id", "date", "focus", "lifts"])
-        assert.hasAllKeys(workout.lifts[0], ["name", "reps", "weight"])
+        const workouts = JSON.parse(res.body)
+        assert.equal(workouts.length, 2)
+        assert.hasAllKeys(workouts[0], ["id", "date", "focus", "lifts"])
+        assert.hasAllKeys(workouts[0].lifts[0], ["name", "reps", "weight", "workout_id"])
         done()
       })
     })
