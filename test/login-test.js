@@ -30,6 +30,9 @@ describe('Server', () => {
       database.raw(`TRUNCATE lifts RESTART IDENTITY CASCADE`),
       database.raw(`TRUNCATE bodyareas RESTART IDENTITY CASCADE`),
       database.raw(`TRUNCATE bodyarea_lifts RESTART IDENTITY CASCADE`),
+      database.raw(`TRUNCATE workouts RESTART IDENTITY CASCADE`),
+      database.raw(`TRUNCATE workout_lifts RESTART IDENTITY CASCADE`),
+      database.raw(`TRUNCATE sets RESTART IDENTITY CASCADE`),
       database.raw(`TRUNCATE roles RESTART IDENTITY CASCADE`),
       database.raw(`TRUNCATE users RESTART IDENTITY CASCADE`),
     ])
@@ -43,7 +46,7 @@ describe('Server', () => {
   describe('/login', () => {
     it('should return a 200 status', done => {
       const userInfo = { "email": "xena@xena.com", "password": "password"}
-      this.request.get('/login', { form: userInfo }, (err, res) => {
+      this.request.post('/login', { form: userInfo }, (err, res) => {
         if(err) { return done(err) }
         assert.equal(res.statusCode, 200)
         done()
