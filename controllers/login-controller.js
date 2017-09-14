@@ -12,7 +12,7 @@ class LoginController {
   static userLogin(req, res) {
     const email = req.body.email
     const password = req.body.password
-    database.raw(`SELECT id, password FROM users WHERE users.email = ?`, [email])
+    Login.findUser(email)
     .then( data => {
       if (data.rows.length < 1) {
         res.sendStatus(404)
@@ -22,7 +22,7 @@ class LoginController {
         bcrypt.compare(password, hash, (err, response) => {
           const token = randtoken.generate(64)
           if (response === true) {
-            database.raw(`UPDATE users SET token = ? WHERE id = ? RETURNING id, name, email, token`, [token, id])
+            Login.createUserToken(id, token)
             .then( userInfo => {
               res.status(200).json(userInfo.rows[0])
             })
