@@ -41,14 +41,14 @@ describe('Server', () => {
   })
 
   describe('/login', () => {
-    // it('should return a 200 status', done => {
-    //   const userInfo = { "email": "xena@xena.com", "password": "password"}
-    //   this.request.get('/login', { form: userInfo }, (err, res) => {
-    //     if(err) { return done(err) }
-    //     assert.equal(res.statusCode, 200)
-    //     done()
-    //   })
-    // })
+    it('should return a 200 status', done => {
+      const userInfo = { "email": "xena@xena.com", "password": "password"}
+      this.request.get('/login', { form: userInfo }, (err, res) => {
+        if(err) { return done(err) }
+        assert.equal(res.statusCode, 200)
+        done()
+      })
+    })
 
     it('should return a users info', done => {
       const userInfo = { "email": "xena@xena.com", "password": "password"}

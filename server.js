@@ -117,7 +117,7 @@ app.post('/login', (req, res) => {
       if (response === true) {
         database.raw(`UPDATE users SET token = ? WHERE id = ? RETURNING id, name, email, token`, [token, id])
         .then( userInfo => {
-          res.json(userInfo.rows[0])
+          res.status(200).json(userInfo.rows[0])
         })
       } else {
         res.sendStatus(404)

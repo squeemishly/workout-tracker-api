@@ -20,8 +20,11 @@ class WorkoutsController {
     //   res.json(result);
     // })
 
+    Workouts.getWorkoutInfo(id)
+    .then( data => {
+      const workouts = []
       data.rows.forEach(workout => {
-        const workoutId = workout.id;
+        const workoutId = workout.id
         Workouts.getLiftInfo(workoutId)
         .then( singleWorkoutData => {
           const lifts = []
