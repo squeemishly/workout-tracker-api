@@ -1,15 +1,23 @@
 const LiftsController = require('./controllers/lifts-controller')
 const BodyareasController = require('./controllers/bodyareas-controller')
 const BodyareaLiftsController = require('./controllers/bodyarea-lifts-controller')
+const WorkoutsController = require('./controllers/workouts-controller')
+const UsersController = require('./controllers/users-controller')
+const LoginController = require('./controllers/login-controller')
 
 const express = require('express')
 const app = express()
 
 const cors = require('cors')
 const bodyParser = require('body-parser')
+
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('./knexfile')[environment]
 const database = require('knex')(configuration)
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const randtoken = require('rand-token')
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -72,6 +80,26 @@ app.post('/api/v1/bodyareas/:bodyarea_id/lifts/:lift_id', (req, res) => {
 
 app.delete('/api/v1/bodyareas/:bodyarea_id/lifts/:lift_id', (req, res) => {
   BodyareaLiftsController.deleteBodyareaLift(req, res)
+})
+
+app.get('/api/v1/users/:user_id/workouts', (req, res) => {
+  WorkoutsController.getUserWorkouts(req, res)
+})
+
+app.post('/api/v1/users', (req, res) => {
+  UsersController.createNewUser(req, res)
+})
+
+app.get('/api/v1/users/:id', (req, res) => {
+  UsersController.findUser(req, res)
+})
+
+app.post('/login', (req, res) => {
+  LoginController.userLogin(req, res)
+})
+
+app.post('/logout', (req, res) => {
+  LoginController.userLogout(req, res)
 })
 
 if (!module.parent) {

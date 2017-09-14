@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
       name TEXT,
       email TEXT,
       password TEXT,
+      token TEXT,
       role_id INTEGER REFERENCES roles(id) ON DELETE CASCADE,
       created_at TIMESTAMP
     )`
