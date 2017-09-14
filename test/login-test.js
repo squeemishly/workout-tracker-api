@@ -62,5 +62,23 @@ describe('Server', () => {
         done()
       })
     })
+
+    it('should return 404 for incorrect password', done => {
+      const userInfo = { "email": "xena@xena.com", "password": "kitty"}
+      this.request.post('/login', { form: userInfo }, (err, res) => {
+        if(err) { return done(err) }
+        assert.equal(res.statusCode, 404)
+        done()
+      })
+    })
+
+    it('should return 404 for incorrect email address', done => {
+      const userInfo = { "email": "squee@boudi.com", "password": "kitty"}
+      this.request.post('/login', { form: userInfo }, (err, res) => {
+        if(err) { return done(err) }
+        assert.equal(res.statusCode, 404)
+        done()
+      })
+    })
   })
 })
