@@ -108,23 +108,20 @@ app.post('/login', (req, res) => {
   .then( data => {
     const hash = data.rows[0].password
     const id = data.rows[0].id
-    console.log(password)
-    console.log(hash)
+    // console.log(password)
+    // console.log(hash)
     bcrypt.compare(password, hash, (err, response) => {
-      console.log(response)
-      console.log(err)
-      /////// if response === true, then create token, DB call to set token for users
-      /////// promise to return json'd data of name, email, & token
-      /////// else, return 404?
-      // var token = randtoken.generate(64)
-      // if (response === true) {
-      //   database.raw(`UPDATE users SET token = ? WHERE id = ? RETURNING id, name, email, token`, [token, id])
-      //   .then( userInfo => {
-      //     res.json(userInfo.rows[0])
-      //   })
-      // } else {
-      //   res.sendStatus(404)
-      // }
+      // console.log(response)
+      // console.log(err)
+      const token = randtoken.generate(64)
+      if (response === true) {
+        database.raw(`UPDATE users SET token = ? WHERE id = ? RETURNING id, name, email, token`, [token, id])
+        .then( userInfo => {
+          res.json(userInfo.rows[0])
+        })
+      } else {
+        res.sendStatus(404)
+      }
     })
 
   })
