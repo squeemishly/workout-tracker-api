@@ -8,6 +8,14 @@ class Users {
                           VALUES (?, ?, ?, ?)
                           RETURNING id, name, email`, [name, email, hash, token])
   }
+
+  static findUser(id) {
+    return database.raw(`SELECT users.id, users.name, email, roles.name AS role
+                        FROM users
+                        JOIN roles
+                        ON users.role_id = roles.id
+                        WHERE users.id = ?`, [id])
+  }
 }
 
 module.exports = Users
