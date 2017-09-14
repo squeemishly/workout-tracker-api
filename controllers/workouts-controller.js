@@ -7,11 +7,21 @@ const database = require('knex')(configuration)
 class WorkoutsController {
   static getUserWorkouts(req, res) {
     const id = req.params.user_id
-    Workouts.getWorkoutInfo(id)
-    .then( data => {
-      const workouts = []
+    // Workouts.getWorkoutInfo(id)
+    // .then(data => {
+    //   return data.rows;
+    // })
+    // .then(workouts => {
+    //   return Promise.all(workouts.map(workout => Object.assign({}, workout, { lifts: Promise.resolve(Workouts.getLiftInfo(workout.id)) })));
+    // })
+    // .then(workoutsWithLifts => {
+    //   const result = workoutsWithLifts.map(wwl => wwl.lifts.map(l => l.data.rows));
+    //   console.log(result);
+    //   res.json(result);
+    // })
+
       data.rows.forEach(workout => {
-        const workoutId = workout.id
+        const workoutId = workout.id;
         Workouts.getLiftInfo(workoutId)
         .then( singleWorkoutData => {
           const lifts = []
