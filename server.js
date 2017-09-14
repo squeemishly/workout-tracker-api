@@ -82,10 +82,6 @@ app.delete('/api/v1/bodyareas/:bodyarea_id/lifts/:lift_id', (req, res) => {
   BodyareaLiftsController.deleteBodyareaLift(req, res)
 })
 
-app.get('/api/v1/users/:user_id/workouts', (req, res) => {
-  WorkoutsController.getUserWorkouts(req, res)
-})
-
 app.post('/api/v1/users', (req, res) => {
   UsersController.createNewUser(req, res)
 })
@@ -100,6 +96,19 @@ app.post('/login', (req, res) => {
 
 app.post('/logout', (req, res) => {
   LoginController.userLogout(req, res)
+})
+
+app.get('/api/v1/users/:user_id/workouts', (req, res) => {
+  WorkoutsController.getUserWorkouts(req, res)
+})
+
+app.get('/api/v1/users/:user_id/workouts/:workout_id', (req, res) => {
+  const idUser = req.params.user_id
+  const idWorkout = req.params.workout_id
+  database.raw(`SELECT id, workout_date AS date, focus_area AS focus FROM workouts WHERE workouts.user_id = ? AND id = ?`, [idUser, idWorkout])
+  .then( workout => {
+    console.log(workout)
+  })
 })
 
 if (!module.parent) {

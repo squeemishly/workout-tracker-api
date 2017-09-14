@@ -66,7 +66,7 @@ describe('Server', () => {
 
   describe('GET /users/:user_id/workouts/:workout_id', done => {
     it('should return a 200 response', done => {
-      this.request.get('/api/v1/users/1/workouts/1', (err, res) => {
+      this.request.get('/api/v1/users/2/workouts/1', (err, res) => {
         if(err) { return done(err) }
         assert.equal(res.statusCode, 200)
         done()
@@ -74,7 +74,7 @@ describe('Server', () => {
     })
 
     it('should return a single workout with a list of its lifts', done => {
-      this.request.get('/api/v1/users/1/workouts/1', (err, res) => {
+      this.request.get('/api/v1/users/2/workouts/1', (err, res) => {
         if(err) { return done(err) }
         const workout = JSON.parse(res.body)
         assert.hasAllKeys(workout, ["id", "date", "focus", "lifts"])
