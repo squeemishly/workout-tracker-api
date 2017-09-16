@@ -16,7 +16,7 @@ class Workouts {
                           ON workout_lifts.lift_id = lifts.id
                           JOIN sets
                           ON workout_lifts.id = sets.workout_lifts_id
-                          WHERE workout_lifts.id = ?
+                          WHERE workout_lifts.workout_id = ?
                           ORDER BY workout_lifts.id`, [workoutId])
   }
 }
