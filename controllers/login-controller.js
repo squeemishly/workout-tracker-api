@@ -31,7 +31,7 @@ class LoginController {
           }
         })
       }
-    })
+    }).catch(err => { console.error(err); })
   }
 
   static userLogout(req, res) {
