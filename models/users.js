@@ -6,7 +6,7 @@ class Users {
   static createNewUser(name, email, hash, token) {
     return database.raw(`INSERT INTO users (name, email, password, token)
                           VALUES (?, ?, ?, ?)
-                          RETURNING id, name, email`, [name, email, hash, token])
+                          RETURNING id, name, email, token`, [name, email, hash, token])
   }
 
   static findUser(id) {
