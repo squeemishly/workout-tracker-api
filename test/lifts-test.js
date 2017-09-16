@@ -34,6 +34,9 @@ describe('Lifts', () => {
       database.raw(`TRUNCATE lifts RESTART IDENTITY CASCADE`),
       database.raw(`TRUNCATE bodyareas RESTART IDENTITY CASCADE`),
       database.raw(`TRUNCATE bodyarea_lifts RESTART IDENTITY CASCADE`),
+      database.raw(`TRUNCATE workouts RESTART IDENTITY CASCADE`),
+      database.raw(`TRUNCATE workout_lifts RESTART IDENTITY CASCADE`),
+      database.raw(`TRUNCATE sets RESTART IDENTITY CASCADE`),
       database.raw(`TRUNCATE roles RESTART IDENTITY CASCADE`),
       database.raw(`TRUNCATE users RESTART IDENTITY CASCADE`),
     ])

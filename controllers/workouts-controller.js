@@ -11,18 +11,29 @@ class WorkoutsController {
     .then( workouts =>
       Promise.all([
         workouts.rows,
-        Promise.all(workouts.rows.map(workout => Workouts.getLiftInfo(workout.id) ))
+        Promise.all(
+          workouts.rows.map(workout =>
+            Workouts.getLiftInfo(workout.id)
+          )
+        )
       ])
     )
+    .catch(err => console.log(err))
     .then(([workouts, allLifts]) => {
       const workoutObjects = workouts.map( workout => {
-        const liftsData = allLifts.find(lifts => lifts.rows.some(lift => lift.workout_id === workout.id))
-        const lifts = liftsData.rows
-        return { "id": workout.id, "date": workout.date, "focus": workout.focus, "lifts": lifts }
+        const liftsData = allLifts.find(lifts =>
+          lifts.rows.some(lift =>
+            lift.workout_id === workout.id
+          )
+        )
+        const returnedLifts = liftsData.rows
+        const workoutObject = { "id": workout.id, "date": workout.date, "focus": workout.focus, "lifts": returnedLifts }
+        return workoutObject
       })
       return workoutObjects
     })
     .then( workouts => {
+      console.log(workouts)
       res.json(workouts)
     })
   }

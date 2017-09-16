@@ -102,14 +102,14 @@ app.get('/api/v1/users/:user_id/workouts', (req, res) => {
   WorkoutsController.getUserWorkouts(req, res)
 })
 
-app.get('/api/v1/users/:user_id/workouts/:workout_id', (req, res) => {
-  const idUser = req.params.user_id
-  const idWorkout = req.params.workout_id
-  database.raw(`SELECT id, workout_date AS date, focus_area AS focus FROM workouts WHERE workouts.user_id = ? AND id = ?`, [idUser, idWorkout])
-  .then( workout => {
-    console.log(workout)
-  })
-})
+// app.get('/api/v1/users/:user_id/workouts/:workout_id', (req, res) => {
+//   const idUser = req.params.user_id
+//   const idWorkout = req.params.workout_id
+//   database.raw(`SELECT id, workout_date AS date, focus_area AS focus FROM workouts WHERE workouts.user_id = ? AND id = ?`, [idUser, idWorkout])
+//   .then( workout => {
+//     console.log(workout)
+//   })
+// })
 
 if (!module.parent) {
   app.listen(app.get('port'), () => {
