@@ -53,14 +53,14 @@ describe("Users", () => {
       })
     })
 
-    it("should return ?????", done => {
+    it("should return id, name, email, token", done => {
       //// does this return a token? a user id? a unicorn?
       const newUser = { "name": "Rebecca P Czarnecki", "email": "rebecca@czarnecki.com", "password": "passwordify" }
       this.request.post("/api/v1/users", { form: newUser }, (err, res) => {
         if(err) { return done(err) }
         const user = JSON.parse(res.body)
         assert.equal(user.length, 1)
-        assert.hasAllKeys(user[0], ["id", "name", "email"])
+        assert.hasAllKeys(user[0], ["id", "name", "email", "token"])
         done()
       })
     })
