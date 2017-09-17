@@ -10,9 +10,7 @@ const randtoken = require('rand-token')
 
 class UsersController {
   static createNewUser(req, res) {
-    const { name } = req.body
-    const { email } = req.body
-    const { password } = req.body
+    const { name, email, password } = req.body
     if ( name === "" || email === "" || password === "" ) {
       res.sendStatus(400)
     } else {
