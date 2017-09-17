@@ -11,7 +11,6 @@ class WorkoutsController {
     const id = req.params.user_id
     const verifiedUser = User.verifyUser(id, token)
     if (verifiedUser) {
-      console.log(verifiedUser)
       Workouts.getWorkoutInfo(id)
       .then( workouts =>
         Promise.all([
@@ -31,7 +30,6 @@ class WorkoutsController {
         res.json(workouts)
       })
     } else {
-      console.log(verifiedUser)
       res.sendStatus(404)
     }
   }
