@@ -109,3 +109,9 @@ A user can logout:
 POST 'logout'
 - Removes the token from the user's info in the DB with the parameters { id: user_id, token: "user_token" }
 - Returns a 404 if the user isn't found or if the token doesn't match
+
+### Workouts
+
+See a list of workouts for one user:
+GET '/api/v1/users/:user_id/workouts'
+- Returns a list of workouts and the associated lifts, sets, & reps for that workout for the identified user
