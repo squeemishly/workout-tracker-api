@@ -4,7 +4,6 @@ const database = require('knex')(configuration)
 
 class Login {
   static findUser(email){
-    // console.log(email);
     return database.raw(`SELECT id, password
                         FROM users
                         WHERE users.email = ?`, [email])
