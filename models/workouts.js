@@ -6,7 +6,8 @@ class Workouts {
   static getWorkoutInfo(id) {
     return database.raw(`SELECT id, focus_area AS focus, workout_date AS date
                           FROM workouts
-                          WHERE user_id = ?`, [id])
+                          WHERE user_id = ?
+                          ORDER BY workout_date DESC`, [id])
   }
 
   static getLiftInfo(workoutId) {
