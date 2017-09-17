@@ -1,10 +1,10 @@
-#### Workout Tracker API
+# Workout Tracker API
 
 ## Welcome to Workout Tracker API. You can do stuff here.
 
 Here's some things you can do:
 
-# Lifts
+### Lifts
 
 See a list of lifts:
 GET '/api/v1/lifts'
@@ -30,7 +30,7 @@ DELETE '/api/v1/lifts/:id'
 - Deletes the lift with the id passed in.
 - If the lift can't be found, a 404 will be returned.
 
-# Bodyareas
+### Bodyareas
 
 See a list of bodyareas:
 GET '/api/v1/bodyareas'
@@ -57,7 +57,7 @@ DELETE '/api/v1/bodyareas/:id'
 - If the bodyarea can't be found, a 404 will be returned.
 
 
-# Bodyarea-lifts
+### Bodyarea-lifts
 
 See a list lifts by bodyarea:
 GET '/api/v1/bodyarea_lifts_by_bodyarea/:bodyarea_id'
@@ -80,3 +80,32 @@ Delete a bodyarea-lifts:
 DELETE '/api/v1/bodyareas/:bodyarea_id/lifts/:lift_id'
 - Deletes the bodyarea-lift with the id passed in.
 - If the bodyarea-lift can't be found, a 404 will be returned. Both ids must be valid for the bodyarea-lift to be created.
+
+
+### Users
+
+Create a new user:
+POST '/api/v1/users'
+- Creates a new user with the parameters: { name: "user name", email: "user email", password: "user password" }
+- Returns a 404 if any of those parameters are missing
+
+See a single user:
+GET '/api/v1/users/:user_id'
+- Returns a single user with the id specified in the params
+- An invalid id in the params returns a 404
+
+
+### Login
+
+A user can login:
+POST 'login'
+- Creates a user login with the parameters: { email: "user email", password: "user password" }
+- Adds a randomly generated token to their record in the database
+- Returns the user information: "id", "name", "email", "token"
+- Returns a 404 if the email isn't in the database
+- Returns a 404 if the password is incorrect
+
+A user can logout:
+POST 'logout'
+- Removes the token from the user's info in the DB with the parameters { id: user_id, token: "user_token" }
+- Returns a 404 if the user isn't found or if the token doesn't match
