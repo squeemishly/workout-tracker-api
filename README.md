@@ -2,7 +2,16 @@
 
 ## Welcome to Workout Tracker API. You can do stuff here.
 
-Here's some things you can do:
+### The Setup
+git clone this repository
+npm install
+nodemon to run it
+
+### Contributing
+Wanna contribute? That's great!
+Contact [Squee](https://github.com/squeemishly). She's the boss here.
+
+## Here's some things you can do:
 
 ### Lifts
 
