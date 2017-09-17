@@ -20,8 +20,8 @@ class LoginController {
         const hash = data.rows[0].password
         const id = data.rows[0].id
         bcrypt.compare(password, hash, (err, response) => {
-          const token = randtoken.generate(64)
           if (response === true) {
+            const token = randtoken.generate(64)
             Login.createUserToken(id, token)
             .then( userInfo => {
               res.status(200).json(userInfo.rows[0])
@@ -31,7 +31,7 @@ class LoginController {
           }
         })
       }
-    })
+    }).catch(err => { console.error(err); })
   }
 
   static userLogout(req, res) {
