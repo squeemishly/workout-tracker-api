@@ -35,11 +35,24 @@
 
             <li><code>GET /api/v1/bodyareas/:id</code> - returns the bodyarea associated with the id specified by <code>:id</code> or a 404 if the meal is not found</li>
 
-            <li><code>POST /api/v1/bodyareas</code> - creates a new bodyarea with the parameters: <code>{ bodyarea: { name: "bodyarea name" } }</code>. If the bodyarea is not successfully created, a 400 status code will be returned. The name field is required.
+            <li><code>POST /api/v1/bodyareas</code> - creates a new bodyarea with the parameters: <code>{ bodyarea: { name: "bodyarea name" } }</code>. If the bodyarea is not successfully created, a 400 status code will be returned. The name field is required.</li>
 
-            <li><code>PUT /api/v1/bodyareas</code> - Updates an existing bodyarea with the parameters: <code>{ bodyarea: { name: "edited name" } }</code>. If the bodyarea is successfully updated, the bodyarea will be returned. If the bodyarea is not successfully updated, a 400 status code will be returned. The name field is required.
+            <li><code>PUT /api/v1/bodyareas</code> - Updates an existing bodyarea with the parameters: <code>{ bodyarea: { name: "edited name" } }</code>. If the bodyarea is successfully updated, the bodyarea will be returned. If the bodyarea is not successfully updated, a 400 status code will be returned. The name field is required.</li>
 
-            <li><code>DELETE /api/v1/meals/:meal_id/foods/:id</code> - removes the bodyarea with the id <code>:id</code>. If the bodyarea cannot be found, a 404 will be returned.
+            <li><code>DELETE /api/v1/meals/:meal_id/foods/:id</code> - removes the bodyarea with the id <code>:id</code>. If the bodyarea cannot be found, a 404 will be returned.</li>
+          </ul>
+        </div>
+
+        <div class="api">
+          <p>Bodyarea-lifts Endpoints:</p>
+          <ul>
+            <li><code>GET /api/v1/bodyarea_lifts_by_bodyarea/:bodyarea_id</code> - Returns a list of lifts for the bodyarea identified. Returns a 404 if the bodyarea_id doesn't exist</li>
+
+            <li><code>GET /api/v1/bodyareas_by_lift/:lift_id</code> - Returns a list of bodyareas for an identified lift. Returns a 404 if the lift_id doesn't exist</li>
+
+            <li><code>POST /api/v1/bodyareas/:bodyarea_id/lifts/:lift_id</code> - creates a new bodyarea_lift using the ids in the parameters. If a bodyarea-lift is successfully created, it returns a 200. If the bodyarea-lift is not successfully created, a 400 status code will be returned. Both ids must be valid for the bodyarea-lift to be created</li>
+
+            <li><code>DELETE /api/v1/bodyareas/:bodyarea_id/lifts/:lift_id</code> - Deletes the bodyarea-lift with the id passed in. If the bodyarea-lift can't be found, a 404 will be returned. Both ids must be valid for the bodyarea-lift to be created.</li>
           </ul>
         </div>
       </div>
