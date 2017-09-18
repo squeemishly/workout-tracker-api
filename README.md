@@ -4,7 +4,14 @@
 
 ### The Setup
 git clone this repository
+npm install nodemon --save-dev
+npm install knex pg --save
+npm install knex -g
 npm install
+setup your local postgres database with: CREATE DATABASE workout_tracker; CREATE DATABASE workout_tracker_test;
+knex init
+knex migrate:latest
+knex seed:run
 nodemon to run it
 
 ### Contributing
