@@ -16,43 +16,43 @@
         <div class="api">
           <p>Lifts Endpoints:</p>
           <ul>
-            <li><code>GET /api/v1/lifts</code> - returns all lifts currently in the database</li>
+            <li><code>GET /api/v1/lifts</code><br /> - returns all lifts currently in the database</li>
 
-            <li><code>GET /api/v1/lifts/:id</code> - returns the lift object with the specific <code>:id</code> you've passed in or 404 if the food is not found</li>
+            <li><code>GET /api/v1/lifts/:id</code><br /> - returns the lift object with the specific <code>:id</code> you've passed in or 404 if the food is not found</li>
 
-            <li><code>POST /api/v1/lifts</code> - allows creating a new lift with the parameters: <br><code>{ lift: { name: "lift name" } }</code><br> If the lift is successfully created, the lift will be returned. If the food is not successfully created, a 400 status code will be returned. Name is a required field.</li>
+            <li><code>POST /api/v1/lifts</code><br /> - allows creating a new lift with the parameters: <br><code>{ lift: { name: "lift name" } }</code><br> If the lift is successfully created, the lift will be returned. If the food is not successfully created, a 400 status code will be returned. Name is a required field.</li>
 
-            <li><code>PUT /api/v1/lifts/:id</code> - allows one to update an existing lift with the parameters:<br> <code>{ lift: { name: "lift name" } }</code><br> If the lift is successfully updated (name is a required field), the food item will be returned. If the food is not successfully updated, a 400 status code will be returned.</li>
+            <li><code>PUT /api/v1/lifts/:id</code><br /> - allows one to update an existing lift with the parameters:<br> <code>{ lift: { name: "lift name" } }</code><br> If the lift is successfully updated (name is a required field), the food item will be returned. If the food is not successfully updated, a 400 status code will be returned.</li>
 
-            <li><code>DELETE /api/v1/lifts/:id</code> - deletes the lift with the id passed in. If the lift can't be found, a 404 will be returned.</li>
+            <li><code>DELETE /api/v1/lifts/:id</code><br /> - deletes the lift with the id passed in. If the lift can't be found, a 404 will be returned.</li>
           </ul>
         </div>
 
         <div class="api">
           <p>Bodyareas Endpoints:</p>
           <ul>
-            <li><code>GET /api/v1/bodyareas</code> - returns all the bodyareas in the database</li>
+            <li><code>GET /api/v1/bodyareas</code><br /> - returns all the bodyareas in the database</li>
 
-            <li><code>GET /api/v1/bodyareas/:id</code> - returns the bodyarea associated with the id specified by <code>:id</code> or a 404 if the meal is not found</li>
+            <li><code>GET /api/v1/bodyareas/:id</code><br /> - returns the bodyarea associated with the id specified by <code>:id</code> or a 404 if the meal is not found</li>
 
-            <li><code>POST /api/v1/bodyareas</code> - creates a new bodyarea with the parameters: <code>{ bodyarea: { name: "bodyarea name" } }</code>. If the bodyarea is not successfully created, a 400 status code will be returned. The name field is required.</li>
+            <li><code>POST /api/v1/bodyareas</code><br /> - creates a new bodyarea with the parameters: <code>{ bodyarea: { name: "bodyarea name" } }</code>. If the bodyarea is not successfully created, a 400 status code will be returned. The name field is required.</li>
 
-            <li><code>PUT /api/v1/bodyareas</code> - Updates an existing bodyarea with the parameters: <code>{ bodyarea: { name: "edited name" } }</code>. If the bodyarea is successfully updated, the bodyarea will be returned. If the bodyarea is not successfully updated, a 400 status code will be returned. The name field is required.</li>
+            <li><code>PUT /api/v1/bodyareas</code><br /> - Updates an existing bodyarea with the parameters: <code>{ bodyarea: { name: "edited name" } }</code>. If the bodyarea is successfully updated, the bodyarea will be returned. If the bodyarea is not successfully updated, a 400 status code will be returned. The name field is required.</li>
 
-            <li><code>DELETE /api/v1/meals/:meal_id/foods/:id</code> - removes the bodyarea with the id <code>:id</code>. If the bodyarea cannot be found, a 404 will be returned.</li>
+            <li><code>DELETE /api/v1/meals/:meal_id/foods/:id</code><br /> - removes the bodyarea with the id <code>:id</code>. If the bodyarea cannot be found, a 404 will be returned.</li>
           </ul>
         </div>
 
         <div class="api">
           <p>Bodyarea-lifts Endpoints:</p>
           <ul>
-            <li><code>GET /api/v1/bodyarea_lifts_by_bodyarea/:bodyarea_id</code> - Returns a list of lifts for the bodyarea identified. Returns a 404 if the bodyarea_id doesn't exist</li>
+            <li><code>GET /api/v1/bodyarea_lifts_by_bodyarea/:bodyarea_id</code><br/> - Returns a list of lifts for the bodyarea identified. Returns a 404 if the bodyarea_id doesn't exist</li>
 
-            <li><code>GET /api/v1/bodyareas_by_lift/:lift_id</code> - Returns a list of bodyareas for an identified lift. Returns a 404 if the lift_id doesn't exist</li>
+            <li><code>GET /api/v1/bodyareas_by_lift/:lift_id</code><br/> - Returns a list of bodyareas for an identified lift. Returns a 404 if the lift_id doesn't exist</li>
 
-            <li><code>POST /api/v1/bodyareas/:bodyarea_id/lifts/:lift_id</code> - creates a new bodyarea_lift using the ids in the parameters. If a bodyarea-lift is successfully created, it returns a 200. If the bodyarea-lift is not successfully created, a 400 status code will be returned. Both ids must be valid for the bodyarea-lift to be created</li>
+            <li><code>POST /api/v1/bodyareas/:bodyarea_id/lifts/:lift_id</code><br/> - creates a new bodyarea_lift using the ids in the parameters. If a bodyarea-lift is successfully created, it returns a 200. If the bodyarea-lift is not successfully created, a 400 status code will be returned. Both ids must be valid for the bodyarea-lift to be created</li>
 
-            <li><code>DELETE /api/v1/bodyareas/:bodyarea_id/lifts/:lift_id</code> - Deletes the bodyarea-lift with the id passed in. If the bodyarea-lift can't be found, a 404 will be returned. Both ids must be valid for the bodyarea-lift to be created.</li>
+            <li><code>DELETE /api/v1/bodyareas/:bodyarea_id/lifts/:lift_id</code><br/> - Deletes the bodyarea-lift with the id passed in. If the bodyarea-lift can't be found, a 404 will be returned. Both ids must be valid for the bodyarea-lift to be created.</li>
           </ul>
         </div>
       </div>
