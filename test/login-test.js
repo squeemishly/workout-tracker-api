@@ -84,7 +84,7 @@ describe('Login', () => {
 
   describe('/logout', () => {
     it('should return a 404 if the token does not match', done => {
-      const userInfo = { "id": 2, "token": "jlHxE2iQQYKgINkcwtsyZ0r4qLNjYs1wTNBeXcUgyg5VrFVscw5zMI8HcE1fQVWC" }
+      const userInfo = { "id": 2, "token": "squeeisthebestever" }
       this.request.post('/logout', { form: userInfo }, (err, res) => {
         if(err) { return done(err) }
         assert.equal(res.statusCode, 404)

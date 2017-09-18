@@ -1,4 +1,5 @@
 const Login = require('../models/login')
+const Users = require('../models/users')
 
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../knexfile')[environment]
@@ -10,8 +11,7 @@ const randtoken = require('rand-token')
 
 class LoginController {
   static userLogin(req, res) {
-    const email = req.body.email
-    const password = req.body.password
+    const { email, password } = req.body
     Login.findUser(email)
     .then( data => {
       if (data.rows.length < 1) {
@@ -35,11 +35,10 @@ class LoginController {
   }
 
   static userLogout(req, res) {
-    const id = req.body.id
-    const token = req.body.token
-    Login.findToken(id)
+    const { id, token } = req.body
+    Users.findToken(id)
     .then( tokenDB => {
-      if (tokenDB === token) {
+      if (tokenDB.rows[0].token === token) {
         Login.removeToken(id)
         .then( data => {
           if (data.rowCount < 1) {

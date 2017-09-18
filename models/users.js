@@ -17,8 +17,14 @@ class Users {
                         WHERE users.id = ?`, [id])
   }
 
+  static findToken(id) {
+    return database.raw(`SELECT token
+                          FROM users
+                          WHERE id = ?`, [id])
+  }
+
   static verifyUser(id, token) {
-    return database.raw(`SELECT token FROM users WHERE id = ?`, [id])
+    return this.findToken(id)
     .then(dbToken => {
       return dbToken.rows[0].token == token
     })

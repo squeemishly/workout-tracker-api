@@ -16,12 +16,6 @@ class Login {
                         RETURNING id, name, email, token`, [token, id])
   }
 
-  static findToken(id) {
-    return database.raw(`SELECT token
-                        FROM users
-                        WHERE id = ?`, [id])
-  }
-
   static removeToken(id) {
     return database.raw(`UPDATE users
                         SET token = NULL
