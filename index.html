@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Workout Tracker - API</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="styles/main.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome to Workout Tracker API!</h1>
+
+      <div class="instructions">
+        <p>The following endpoints are available. All endpoints will return the data as JSON.</p>
+
+        <div class="api">
+          <p>Lifts Endpoints:</p>
+          <ul>
+            <li><code>GET /api/v1/lifts</code> - returns all lifts currently in the database</li>
+
+            <li><code>GET /api/v1/lifts/:id</code> - returns the lift object with the specific <code>:id</code> you've passed in or 404 if the food is not found</li>
+
+            <li><code>POST /api/v1/lifts</code> - allows creating a new lift with the parameters: <br><code>{ lift: { name: "lift name" } }</code><br> If the lift is successfully created, the lift will be returned. If the food is not successfully created, a 400 status code will be returned. Name is a required field.</li>
+
+            <li><code>PUT /api/v1/lifts/:id</code> - allows one to update an existing lift with the parameters:<br> <code>{ lift: { name: "lift name" } }</code><br> If the lift is successfully updated (name is a required field), the food item will be returned. If the food is not successfully updated, a 400 status code will be returned.</li>
+
+            <li><code>DELETE /api/v1/lifts/:id</code> - deletes the lift with the id passed in. If the lift can't be found, a 404 will be returned.</li>
+          </ul>
+        </div>
+
+        <div class="api">
+          <p>Bodyareas Endpoints:</p>
+          <ul>
+            <li><code>GET /api/v1/bodyareas</code> - returns all the bodyareas in the database</li>
+
+            <li><code>GET /api/v1/bodyareas/:id</code> - returns the bodyarea associated with the id specified by <code>:id</code> or a 404 if the meal is not found</li>
+
+            <li><code>POST /api/v1/bodyareas</code> - creates a new bodyarea with the parameters: <code>{ bodyarea: { name: "bodyarea name" } }</code>. If the bodyarea is not successfully created, a 400 status code will be returned. The name field is required.
+
+            <li><code>PUT /api/v1/bodyareas</code> - Updates an existing bodyarea with the parameters: <code>{ bodyarea: { name: "edited name" } }</code>. If the bodyarea is successfully updated, the bodyarea will be returned. If the bodyarea is not successfully updated, a 400 status code will be returned. The name field is required.
+
+            <li><code>DELETE /api/v1/meals/:meal_id/foods/:id</code> - removes the bodyarea with the id <code>:id</code>. If the bodyarea cannot be found, a 404 will be returned.
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

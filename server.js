@@ -26,6 +26,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('port', process.env.PORT || 3000)
 app.locals.title = 'Workout Tracker API'
 
+app.get('/', (request, response) => {
+  response.sendFile('index.html', {root: './'})
+})
+
 app.get('/api/v1/lifts', (req, res) => {
   LiftsController.getAllLifts(req, res)
 })
