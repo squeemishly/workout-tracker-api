@@ -24,12 +24,8 @@ class Users {
   }
 
   static verifyUser(id, token) {
-    this.findToken(id)
-    // database.raw(`SELECT token FROM users WHERE id = ?`, [id])
+    return this.findToken(id)
     .then(dbToken => {
-      console.log(`dbToken: `, dbToken.rows[0].token)
-      console.log(`token`, token)
-      console.log(`answer: `, dbToken.rows[0].token == token)
       return dbToken.rows[0].token == token
     })
   }
