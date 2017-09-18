@@ -18,7 +18,7 @@ class UsersController {
         const token = randtoken.generate(64)
         Users.createNewUser(name, email, hash, token)
         .then( data => {
-          res.json(data.rows)
+          res.json(data.rows[0])
         })
       })
     }
