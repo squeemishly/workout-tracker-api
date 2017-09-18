@@ -10,9 +10,7 @@ const randtoken = require('rand-token')
 
 class UsersController {
   static createNewUser(req, res) {
-    const { name } = req.body
-    const { email } = req.body
-    const { password } = req.body
+    const { name, email, password } = req.body
     if ( name === "" || email === "" || password === "" ) {
       res.sendStatus(400)
     } else {
@@ -20,7 +18,7 @@ class UsersController {
         const token = randtoken.generate(64)
         Users.createNewUser(name, email, hash, token)
         .then( data => {
-          res.json(data.rows)
+          res.json(data.rows[0])
         })
       })
     }
