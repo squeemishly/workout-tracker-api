@@ -22,13 +22,6 @@ class Users {
                           FROM users
                           WHERE id = ?`, [id])
   }
-
-  static verifyUser(id, token) {
-    return this.findToken(id)
-    .then(dbToken => {
-      return dbToken.rows[0].token == token
-    })
-  }
 }
 
 module.exports = Users
